@@ -5,6 +5,8 @@ from django.dispatch import receiver
 
 
 class Profile(models.Model):
+    class Meta:
+        db_table = "Profile"
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=1, null=False, default='O')
     dob = models.DateField(null=True)
@@ -25,6 +27,8 @@ class Profile(models.Model):
 
     
 class Measurements(models.Model):
+    class Meta:
+        db_table = "Measurements"
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     date = models.DateTimeField(auto_now=True, null=False)
     height = models.FloatField()
@@ -36,26 +40,34 @@ class Measurements(models.Model):
     waist_height_ratio = models.FloatField()
 
 class Food(models.Model):
+    class Meta:
+        db_table = "Food"
     name = models.CharField(max_length=50, unique=True, null=False)
     carbs_per_serving = models.FloatField(null=False)
     cal_per_serving = models.FloatField(null=False)
     pro_per_serving = models.FloatField(null=False)
     fat_per_serving = models.FloatField(null=False)
 
-class FoodLog(models.Model):  
+class FoodLog(models.Model):
+    class Meta:
+        db_table = "FoodLog"  
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, null=False, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, null=False)
     quantity = models.IntegerField(null=False)  
 
 class Exercise(models.Model):
+    class Meta:
+        db_table = "Exercise"
     name = models.CharField(max_length=50, unique=True, null=False)
     url = models.URLField(null=False)
-    cal = models.FloatField(null=False)
+    calBurnedPerMin = models.FloatField(null=False)
 
 class ExerciseLog(models.Model):
+    class Meta:
+        db_table = "ExerciseLog"
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    name = models.ForeignKey(Food, on_delete=models.CASCADE)
+    name = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, null=False)
     duration = models.IntegerField(null=False)  
 
