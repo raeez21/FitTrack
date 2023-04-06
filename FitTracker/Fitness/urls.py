@@ -16,13 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from knox import views as knox_views
-from .views import AccountView, LoginAPI, FoodLogView
+from .views import FoodLogView
+from .views_account import AccountView, LoginAPI, ProfileView
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('fitness/', include('Fitness.urls')),
     # # path('signup/', include('Users.urls')),
     # path('api-auth/', include('rest_framework.urls'))
-    path('', AccountView.as_view()),
+    path('account/', AccountView.as_view()),
+    path('account/<int:id>/', AccountView.as_view()),
+    path('profile/', ProfileView.as_view()),
+    path('profile/<int:id>/', ProfileView.as_view()),
     path('login/', LoginAPI.as_view(), name='login'),
     path('food-log/',FoodLogView.as_view(),name='FoodLog')
 

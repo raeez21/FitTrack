@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 
@@ -24,6 +24,13 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         else:
             instance.profile.save()
+
+    @receiver(pre_delete, sender=User, dispatch_uid='question_delete_signal')
+    def delete_user_profile(sender, instance, using, **kwargs):
+        Profile.objects.delete(user__id = instance.id)
+
+
+
 
     
 class Measurements(models.Model):
