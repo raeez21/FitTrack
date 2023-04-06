@@ -6,7 +6,8 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=1, null=False, default='M')
+    gender = models.CharField(max_length=1, null=False, default='O')
+    dob = models.DateField(null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     targetCalorieIntake = models.FloatField(default=0)
     targetCalorieBurn = models.FloatField(default=0)
