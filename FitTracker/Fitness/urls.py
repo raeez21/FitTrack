@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from knox import views as knox_views
-from .views import AccountView, LoginAPI
-
+from .views import AccountView, LoginAPI, FoodLogView
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('fitness/', include('Fitness.urls')),
@@ -25,7 +24,7 @@ urlpatterns = [
     # path('api-auth/', include('rest_framework.urls'))
     path('', AccountView.as_view()),
     path('login/', LoginAPI.as_view(), name='login'),
-
+    path('food-log/',FoodLogView.as_view(),name='FoodLog')
 
     
 ]
