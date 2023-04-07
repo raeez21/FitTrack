@@ -15,6 +15,17 @@ from knox.views import LoginView as KnoxLoginView
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
+    def get(self, request):
+        loggedIn = False
+        message = "User not logged in"
+        details = ""
+        if request.user.is_authenticated:
+            loggedIn = True
+            message = "User is logged in"
+            details = request.user.first_name + " " + request.user.last_name + " ID: " + str(request.user.id)
+
+        return Response({"err" : False, "message" : message, "data" : details , "loggedIn" : loggedIn}, status=status.HTTP_200_OK)
+
     def post(self, request, format=None):
         
         serializer = AuthTokenSerializer(data=request.data)
@@ -23,8 +34,11 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         
         login(request, user)
+
+        print(serializer.data , user)
         
-        return super(LoginAPI, self).post(request._request, format=None)
+        return super(LoginAPI, self).post(request, format=None)
+
 
 class AccountView(APIView):
     serializer_class = RegisterSerializer
@@ -42,8 +56,8 @@ class AccountView(APIView):
 
         data = []
         for profile in profiles:
-            obj = ProfileSerialzer(profile).data
-            data.append(obj)
+            obj = ProfileSerialzer(profile)
+            data.append(obj.data)
 
         return Response({"status": "success" , "data" : data}, status=status.HTTP_200_OK)
     
@@ -59,14 +73,13 @@ class AccountView(APIView):
         user = User.objects.get(id=id)
         serializer = self.serializer_class(user, data=request.data, partial=True)
         if serializer.is_valid():
-            print("SAVED")
             serializer.save()
             return Response({"status": "success","message":"user updated successfully", "data": serializer.data} , status=status.HTTP_200_OK)
         else:
             return Response({"status": "error","message":"err" ,"data": serializer.errors})
     
     def delete(self, request, id):
-        print("ID is", id)
+
         user = User.objects.get(id = id)
         
         serializer = RegisterSerializer(user).data
@@ -102,7 +115,6 @@ class ProfileView(APIView):
         profile = Profile.objects.get(user__id=id)
         serializer = self.serializer_class(profile, data=request.data, partial=True)
         if serializer.is_valid():
-            print("SAVED")
             serializer.save()
             return Response({"status": "success","message":"profile updated successfully", "data": serializer.data} , status=status.HTTP_200_OK)
         else:
