@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication', # make sure to disable this when building the project 
+        'rest_framework.authentication.SessionAuthentication', # make sure to disable this when building the project 
         'knox.auth.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES' : [

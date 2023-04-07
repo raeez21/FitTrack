@@ -18,11 +18,14 @@ from django.urls import path, include
 from knox import views as knox_views
 from .views import FoodLogView
 from .views_account import AccountView, LoginAPI, ProfileView
+from .views_scanner import Scanner
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('fitness/', include('Fitness.urls')),
     # # path('signup/', include('Users.urls')),
     # path('api-auth/', include('rest_framework.urls'))
+    path("scan/<str:id>", Scanner.as_view()),
     path('account/', AccountView.as_view()),
     path('account/<int:id>/', AccountView.as_view()),
     path('profile/', ProfileView.as_view()),
