@@ -11,11 +11,14 @@ class Profile(models.Model):
     gender = models.CharField(max_length=1, null=False, default='O')
     dob = models.DateField(null=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    targetCalorieIntake = models.FloatField(default=0)
-    targetCalorieBurn = models.FloatField(default=0)
-    targetCarbohydrateIntake = models.FloatField(default=0)
-    targetProteinIntake = models.FloatField(default=0)
-    targetFatIntake = models.FloatField(default=0)
+    weight = models.FloatField(default=0)
+    height = models.FloatField(default=0)
+    target_calorie_intake = models.FloatField(default=0)
+    target_calorie_burn = models.FloatField(default=0)
+    target_carbohydrate_intake = models.FloatField(default=0)
+    target_protein_intake = models.FloatField(default=0)
+    target_fat_intake = models.FloatField(default=0)
+    target_water_intake = models.FloatField(default=0)
 
     @receiver(post_save, sender=User)
     def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -24,12 +27,6 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         else:
             instance.profile.save()
-
-    @receiver(pre_delete, sender=User, dispatch_uid='question_delete_signal')
-    def delete_user_profile(sender, instance, using, **kwargs):
-        Profile.objects.delete(user__id = instance.id)
-
-
 
 
     
@@ -68,7 +65,7 @@ class Exercise(models.Model):
         db_table = "Exercise"
     name = models.CharField(max_length=50, unique=True, null=False)
     url = models.URLField(null=False)
-    calBurnedPerMin = models.FloatField(null=False)
+    cal_burned_per_min = models.FloatField(null=False)
 
 class ExerciseLog(models.Model):
     class Meta:

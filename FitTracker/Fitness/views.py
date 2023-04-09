@@ -13,7 +13,10 @@ from knox.views import LoginView as KnoxLoginView
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-
+import requests
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+import random
 
 #Login needed to access this view
 class FoodLogView(LoginRequiredMixin, APIView):
@@ -51,3 +54,23 @@ class FoodLogView(LoginRequiredMixin, APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def quotes(request):
+    categories = ["health" , "inspirational"]
+    category = categories[random.randint(0, len(categories) - 1)]
+
+    url = "https://api.api-ninjas.com/v1/quotes/?category=" + category
+    token = "koBCOTxY7knSZUSEgMuqjg==A7zNeVuvzNzPOHP0"
+
+    header = {"X-Api-Key" : token}
+
+    response = requests.get(url, headers=header)
+    print(response.json())
+
+    if response.status_code == 200:
+        return Response({"err" : False, "data" : response.json()[0]}, status=status.HTTP_200_OK)
+    
+    return Response({"err" : True, "data" : response.json()}, status=response.status_code)

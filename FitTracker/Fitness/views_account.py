@@ -47,16 +47,16 @@ class AccountView(APIView):
     # authentication_classes = [SessionAuthentication, BasicAuthentication] 
 
     def get(self, request, id=None):
-        profiles = []
+        users = []
 
         if id == None:
-            profiles = Profile.objects.filter(user__is_active = True)
+            users = User.objects.filter(is_active = True)
         else:
-            profiles.append(Profile.objects.get(user__id = id, user__is_active = True))
+            users.append(User.objects.get(id = id, is_active = True))
 
         data = []
-        for profile in profiles:
-            obj = ProfileSerialzer(profile)
+        for user in users:
+            obj = UserSerializer(user)
             data.append(obj.data)
 
         return Response({"status": "success" , "data" : data}, status=status.HTTP_200_OK)
@@ -65,6 +65,7 @@ class AccountView(APIView):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
+
             return Response({"status": "success","message":"New Profile created successfully", "data": serializer.data, "append":True}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "message":"err", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -81,11 +82,10 @@ class AccountView(APIView):
     def delete(self, request, id):
 
         user = User.objects.get(id = id)
-        
-        serializer = RegisterSerializer(user).data
-        
         user.is_active = False
         user.save()
+        
+        serializer = UserSerializer(user).data
         
         return Response({"status": "success","message":"user deleted successfully", "data": serializer} , status=status.HTTP_200_OK)
         
@@ -106,7 +106,7 @@ class ProfileView(APIView):
 
         data = []
         for profile in profiles:
-            obj = ProfileSerialzer(profile).data
+            obj = self.serializer_class(profile).data
             data.append(obj)
 
         return Response({"status": "success" , "data" : data}, status=status.HTTP_200_OK)
