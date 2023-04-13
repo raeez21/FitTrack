@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
-
+from django.utils import timezone
 
 class Profile(models.Model):
     class Meta:
@@ -28,8 +28,13 @@ class Profile(models.Model):
         else:
             instance.profile.save()
 
-
-    
+class TargetsHistory(models.Model):
+    class Meta:
+        db_table = "TargetsHistory"
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
+    target_type = models.CharField(max_length=40,null=False)
+    target_value = models.FloatField()
+    created_on = models.DateTimeField(default = timezone.now)    
 class Measurements(models.Model):
     class Meta:
         db_table = "Measurements"

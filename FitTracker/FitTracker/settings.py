@@ -91,7 +91,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'FitTrack_Dev',
+            'NAME': 'FitTrack_Dev1',
             'USER': 'postgres',
             'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD'),
             'HOST': '127.0.0.1',
