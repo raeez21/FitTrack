@@ -13,7 +13,7 @@ BEGIN
     
     IF NEW."target_protein_intake" IS DISTINCT FROM OLD."target_protein_intake" THEN
       INSERT INTO "TargetsHistory" (user_profile_id, target_type, target_value, created_on)
-      VALUES (OLD.user_id, 'target_protein_intake', NEW."targetProteinIntake", NOW());
+      VALUES (OLD.user_id, 'target_protein_intake', NEW."target_protein_intake", NOW());
     END IF;
 	IF NEW."target_fat_intake" IS DISTINCT FROM OLD."target_fat_intake" THEN
       INSERT INTO "TargetsHistory" (user_profile_id, target_type, target_value, created_on)
