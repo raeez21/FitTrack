@@ -105,7 +105,7 @@
 105,farmer's bread,40,220,6,2
 106,German sourdough bread,26,140,4,1
 107,multigrain seeded bread,20,120,5,2
-108,organic baguette,28,140,,4,1
+108,organic baguette,28,140,4,1
 109,organic multi-grain wheat bread,17,80,4,1
 110,rosemary olive oil bread,22,130,4,6
 111,Tomato and Olive Focaccia Bread,45,290,8,10
@@ -119,7 +119,7 @@
 119,Land O'Lakes® unsalted butter,0,100,0,12
 120,Daisy® cottage cheese with blueberries,12,100,12,2
 121,Daisy® cottage cheese with pineapple,10,120,13,2.5
-122,flavored goat cheese crumbles, Mediterranean,2,80,4,6
+122,flavored goat cheese crumbles,2,80,4,6
 123,grated Parmesan & Romano cheese,0.2,22,2.2,1.4
 124,grated Parmesan cheese,0.2,22.3,1.4,1.7
 125,shaved Parmesan cheese,0,20,2,1.5
@@ -131,7 +131,7 @@
 131,low-moisture part-skim mozzarella cheese block,0.6,78,7,5.3
 132,medium cheddar cheese,0.4,110,7,9
 133,mild cheddar cheese block,1,115,8,9
-134,Yancey's Fancy™ Buffalo wing original hot sauce New York cheddar cheese,1,110,7,9
+134,Yancey's Fancy™ Buffalo wing,1,110,7,9
 135,Yancey's Fancy™ champagne cheddar wedge,1,80,6,7
 136,Yancey's Fancy™ horseradish cheddar cheese,0.4,113,7,9
 137,Yancey's Fancy™ smoked Gouda with bacon,1,120,7,10
@@ -173,7 +173,7 @@
 173,cream cheese spread(plain),2,50,1,5
 174,Daisy® cottage cheese 2%,3,90,13,2.5
 175,Daisy® Pure & Natural® sour cream,2,60,1,6
-176,Philadelphia® bagel chips & cream cheese dip garden vegetable,17,210,4,12
+176,Philadelphia® bagel chips & cream cheese dip,17,210,4,12
 177,Philadelphia® cream cheese spread,2,70,2,6
 178,Reduced-Fat Cream Cheese Spread,2,45,2,4
 179,Philadelphia® cream cheese original,1,100,2,9
@@ -223,8 +223,8 @@
 223,broccoli slaw,7,40,2,2
 224,butternut diced,22,85,1,0.3
 225,Cal-Organic® rainbow carrots,12,52,1,0.3
-226,chopped salad kit, Asian style,10,100,3,5
-227,chopped salad kit, sweetkale,14,150,3,11
+226, Asian style chopped salad kit,10,100,3,5
+227, sweetkale chopped salad kit,14,150,3,11
 228,celery,3,6,0.3,0.1
 229,English cucumber,2.2,15,0.8,0.1
 230,cucumber,3.78,15,0.65,0.11
@@ -235,7 +235,7 @@
 235,iceberg lettuce,2,10,1,0.1
 236,mixed lettuce,2,12,1.2,0.3
 237,red cabbage,6,22,1,0
-238,romaine hearts2.85,17,1.23,0.3
+238,romaine hearts2.85,17,1.23,0.3,0
 239,portobello mushroom caps,3,18,2,0.3
 240,sliced baby bella mushrooms,3.1,18,2.2,0.3
 241,white mushrooms,3.3,22,3.1,0.3
@@ -253,7 +253,7 @@
 253,red baby potatoes,24,103,2,0.1
 254,cooked beets,17,75,2,0.2
 255,Beets,13,58,2,0.2
-256,ginger,1,5,0.7,0,5
+256,ginger,1,5,0.7,0
 257,acorn squash,15,56,1,0.1
 258,Butterball® turkey bacon original,0,25,2,2
 259,hickory smoked bacon,0,42,3,3
@@ -268,26 +268,26 @@
 268,chicken leg quarters,0,220,20,16
 269,fresh Italian sausage,1.1,230,13.5,18.3
 270,Kind® breakfast bars peanut butter,17,250,7,12
-271,Kind Healthy Grains® granola bars peanut butter dark chocolate,21,150,3,7
+271,Kind Healthy Grains® granola bars peanut butter,21,150,3,7
 272,Cheerios™ cereal,20,100,3,2
 273,chocolate squares cereal,27,130,3,2
 274,Cinnamon Toast Crunch™ cereal,25,130,2,3
 275,cluster of oats & honey cereal,25,120,3,2
-276,Quaker® instant oatmeal, maple brown sugar,32,160,4,2
-277,Quaker® instant oatmeal, apples & cinnamon,33,160,4,2.5
+276,Quaker® instant oatmeal  maple brown sugar,32,160,4,2
+277,Quaker® instant oatmeal  apples & cinnamon,33,160,4,2.5
 278,Quaker® instant variety pack,27,120,3,2
-279,breakfast biscuits, blueberry flavored,20,180,3,7
+279,breakfast biscuits  blueberry flavored,20,180,3,7
 280,breakfast biscuits oatmeal,27,145,5,2
 281,100% orange juice,26,112,2,0.5
 282,Monster Energy® drink,54,210,2,0
 283,Red Bull® energy drink,28,115,0,0
 284,Red Bull® energy drink sugar free,0.4,10,0.5,0
-285,Minute Maid® fruit punch.27,100,0,0
+285,Minute Maid® fruit punch.27,100,0,0,0
 286,Solevita 100% apple juice,28,120,0.5,0
 287,Chilean Atlantic skinless salmon fillet portions,0,230,25,15
 288,cold smoked Norwegian salmon,0.7,130,18,8
 289,Fish Market cedar plank Atlantic salmon skin on,0,200,24,11
-290,smoked roasted Norwegian salmon,,190,23,11
+290,smoked roasted Norwegian salmon,0,190,23,11
 291,frozen jumbo cooked shrimp peeled & deveined,0,65,13,1.2
 292,coca cola diet,0,0,0,0
 293,Coca Cola Original,39,140,0,0
@@ -299,4 +299,3 @@
 299,pepsi max,0,0,0,0
 300,diet pepsi,0,0,0,0
 301,Pepsi Max Cherry,0,1,0,0
-
