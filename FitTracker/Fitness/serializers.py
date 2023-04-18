@@ -52,13 +52,13 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'], first_name = validated_data["first_name"] , last_name = validated_data["last_name"])
         return user
-
+#TODO change the below 2 serializer to one
 class FoodLogSerializerGet(serializers.ModelSerializer):
-    food_name = serializers.CharField(source='food.name',read_only=True)
+    #food_name = serializers.CharField(source='food.name',read_only=True)
     class Meta:
         model = FoodLog
-        #fields = '__all__'
-        fields = ['id', 'date', 'quantity', 'user_profile', 'food_name','food_id']
+        fields = '__all__'
+        #fields = ['id', 'date', 'quantity', 'user_profile', 'food_name','food_id']
     
 class FoodLogSerializerPost(serializers.ModelSerializer):
     class Meta:

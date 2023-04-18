@@ -41,6 +41,7 @@ class LoginAPI(KnoxLoginView):
         
         login(request, user)
 
+
         print(serializer.data , user)
         
         return super(LoginAPI, self).post(request, format=None)

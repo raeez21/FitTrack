@@ -55,7 +55,8 @@ class Measurements(models.Model):
 class Food(models.Model):
     class Meta:
         db_table = "Food"
-    name = models.CharField(max_length=50, unique=True, null=False)
+    food_id = models.AutoField(primary_key=True)
+    food_name = models.CharField(max_length=50, unique=True, null=False)
     carbs_per_serving = models.FloatField(null=False)
     cal_per_serving = models.FloatField(null=False)
     pro_per_serving = models.FloatField(null=False)
@@ -63,11 +64,18 @@ class Food(models.Model):
 
 class FoodLog(models.Model):
     class Meta:
-        db_table = "FoodLog"  
+        db_table = "FoodLog"
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, null=False, on_delete=models.CASCADE)
+    #food = models.ForeignKey(Food, null=False, on_delete=models.CASCADE)
+    food_id = models.IntegerField(null=False)
+    food_name = models.CharField(max_length=50,null=False)
     date = models.DateTimeField(auto_now=True, null=False)
-    quantity = models.IntegerField(null=False)  
+    quantity = models.IntegerField(null=False)
+    calories = models.FloatField(null=False)
+    proteins = models.FloatField(null=False)
+    fat = models.FloatField(null=False)
+    carbs = models.FloatField(null=False)
+
 
 class Exercise(models.Model):
     class Meta:
