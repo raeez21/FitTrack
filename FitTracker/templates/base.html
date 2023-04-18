@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock title %} </title>
+    <!-- base:css -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'vendors/typicons/typicons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'vendors/select2/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/select2/select2-bs.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'css/sweetalert2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+    <!-- custom styles -->
+    {% block css %}{% endblock css %}
+    <!-- end custom styles -->
+</head>
+
+<style>
+    .modal-body {
+        background-color: white;
+    }
+    
+    .modalform {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border-radius: 0.25rem;
+    }
+</style>
+
+<body class="sidebar-icon-only">
+    <div class='modal' id='myModal'></div>
+    <!-- container-scroller -->
+    <div class="container-scroller">
+        <!-- navbar -->
+        {% include "partials/_navbar.html" %}
+        <!-- navbar ends -->
+        <!-- page-body-wrapper-->
+        <div class="container-fluid page-body-wrapper">
+            <!-- sidebar -->
+            {% include "partials/_sidebar.html" %}
+            <!-- sidebar ends -->
+            <!-- main-panel -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <!-- GLOBAL ALERTS -->
+                        <div id="alert-message-type" class="col-lg-12 alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                            <strong id="alert-message"></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- END GLOBAL ALERTS -->
+                        {% block content %}{% endblock content %}
+                    </div>
+                </div>
+                <!-- footer -->
+                {% include "partials/_footer.html" %}
+                <!-- footer ends -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- base:js -->
+    <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="{% static 'js/off-canvas.js' %}"></script>
+    <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'js/template.js' %}"></script>
+    <script src="{% static 'js/settings.js' %}"></script>
+    <script src="{% static 'js/todolist.js' %}"></script>
+    <!-- <script src="{% static 'js/sweetalert2.all.min.js' %}"></script> -->
+    <!-- <script src="{% static 'js/js.cookie.min.js'  %}"></script> -->
+    <!-- <script src="{% static 'js/sweetalert2.all.min.js' %}"></script> -->
+    <!-- plugin js for this page -->
+    <script src="{% static 'vendors/typeahead.js/typeahead.bundle.min.js' %}"></script>
+    <!-- <script src="{% static 'vendors/select2/select2.min.js' %}"></script> -->
+    <!-- End plugin js for this page -->
+    <!-- Custom js for this page-->
+    <script src="{% static 'js/file-upload.js' %}"></script>
+    <script src="{% static 'js/typeahead.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- <script src="{% static 'js/select2.js' %}"></script> -->
+    <!-- <script src="{% static 'js/custom.js' %}"></script> -->
+    <!-- endinject -->
+    <!-- custom js for this page-->
+    {% block js %}{% endblock js %}
+    <!-- End custom js for this page-->
+</body>
+
+</html>

@@ -109,3 +109,16 @@ def quotes(request):
         return Response({"err" : False, "data" : response.json()[0]}, status=status.HTTP_200_OK)
     
     return Response({"err" : True, "data" : response.json()}, status=response.status_code)
+
+
+
+def hm(request):
+    return render(request, "index.html")
+
+
+class Dashboard(APIView):
+
+    fr = 0
+
+    def get(self, request):
+        return render(request, "customs/dashboard.html", {})

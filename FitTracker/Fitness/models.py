@@ -28,6 +28,9 @@ class Profile(models.Model):
         else:
             instance.profile.save()
 
+
+
+
 class TargetsHistory(models.Model):
     class Meta:
         db_table = "TargetsHistory"
@@ -35,6 +38,7 @@ class TargetsHistory(models.Model):
     target_type = models.CharField(max_length=40,null=False)
     target_value = models.FloatField()
     created_on = models.DateTimeField(default = timezone.now)    
+
 class Measurements(models.Model):
     class Meta:
         db_table = "Measurements"
