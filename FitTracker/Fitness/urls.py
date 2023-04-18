@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from knox import views as knox_views
+
 from .views import FoodLogView, quotes, hm, Dashboard
+from .views import FoodLogView, quotes, ExerciseLogView, MeasurementsLogView
 from .views_account import AccountView, LoginAPI, ProfileView
 from .views_scanner import Scanner
 
@@ -40,7 +42,10 @@ urlpatterns = [
     path('fr/profile/', ProfileView.as_view(fr=1), name='settings'),
     path('fr/dashboard/', Dashboard.as_view(fr=1), name='dashboard'),
 
-    path('', hm)
+    path('', hm),
+
+    path('e-log/',ExerciseLogView.as_view(), name = 'ExerciseLog'),
+    path('index-log', MeasurementsLogView.as_view(), name = 'IndexLog')
 
     
 ]

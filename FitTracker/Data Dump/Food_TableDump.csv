@@ -1,0 +1,301 @@
+1,Chicken Biryani,21.5,195,16.2,4.6
+2,Chicken Lasagne,44,610,42,28
+3,English Breakfast,37,618,37,37
+4,Chole Bhature,75,250,15,20
+5,Masoor Dal,30,180,12,5
+6,Bagels,53.52,275,10.5,1.6
+7,Pear,27,103,0.6,0.2
+8,Blueberries,21,84,1.1,0.5
+9,Strawberry,12,49,1,0.5
+10,White Bread,13,80,2,1
+11,Croissant,28,230,5,12
+12,chocolate chip cookies,15,150,2,8
+13,Fish and Chips,90,850,35,50
+14,Shepherd's Pie,40,400,25,20
+15,Beef Wellington,35,600,30,40
+16,Scotch Egg,25,350,15,20
+17,Yorkshire Pudding,30,250,5,10
+18,English Muffin,30,150,6,1
+19,Quinoa,39,222,8,4
+20,Brown Rice,45,215,5,2
+21,Almonds,6,161,6,14
+22,Tofu,2,76,8,4
+23,Chia Seeds,12,138,5,9
+24,Lentils,40,230,18,1
+25,Rice,45,200,4,0.5
+26,Egg Whites,0,17,4,0
+27,Whey Protein,3,120,24,1
+28,Kale,7,49,4,1
+29,Flaxseeds,1,55,2,4
+30,Chickpea,27,160,9,3
+31,Pasta,76,351,12,0
+32,Shrimp,0.5,85,18,1
+33,Tuna,0,132,29,1.4
+34,Mackerel,0,262,18.6,18.7
+35,Oysters,3.9,68,7,2.5
+36,Clams,2.5,74,12.8,1
+37,Scallops,2,88,16.6,0.8
+38,Crab,0,84,17.8,0.9
+39,Lobster,0.6,96,20.5,0.6
+40,Octopus,3.4,164,29.5,2.1
+41,Squid,3,92,15.6,1.2
+42,Mussels,3.7,86,11.9,2.2
+43,Haddock,0,90,19,0.8
+44,Halibut,0,110,23,2
+45,Tilapia,0,96,20,1.7
+46,Catfish,0,128,17,6
+47,Rainbow Trout,0,141,19.9,6.3
+48,Flounder,0,91,18.8,1
+49,Almonds,6,161,6,14
+50,Brazil nuts,3,182,4,18
+51,Cashews,9,155,5,12
+52,Chestnuts,22,110,1,1
+53,Hazelnuts,5,176,4,17
+54,Peanuts,5,161,7,14
+55,Pecans,4,193,3,20
+56,Pine Nuts,3,188,4,19
+57,Pistachios,8,156,6,12
+58,Walnuts,4,182,4,18
+59,Chicken Salad,10,250,20,12
+60,Spaghetti Bolognese,60,450,25,15
+61,Cheeseburger,31,303,17,14
+62,Pepperoni Pizza,36,298,12,12
+63,Fried Chicken,21,320,20,18
+64,Chicken Nuggets,14,260,15,15
+65,French Fries,48,365,4,17
+66,Tacos,22,190,8,10
+67,Burritos,47,550,22,25
+68,Hot Dog,30,290,10,20
+69,Onion Rings,29,280,3,15
+70,Grilled Cheese,28,330,16,18
+71,Club Sandwich,42,460,27,20
+72,Egg Roll,20,190,7,8
+73,Nachos,40,300,8,15
+74,Chicken Caesar Salad,12,360,18,24
+75,BLT Sandwich,32,410,17,22
+76,Donut,26,280,4,14
+77,Ice Cream Cone,35,270,4,14
+78,Chicken Quesadilla,36,510,26,28
+79,Water,0,0,0,0
+80,Black Coffee,0,2,0.3,0
+81,Green Tea,0,2,0,0
+82,Black Tea,0,2,0,0
+83,Whole Milk,12,146,8,8
+84,Skim Milk,12,83,8,0.2
+85,Soy Milk,6,105,7,4
+86,Coconut Water,6,45,1.7,0.5
+87,Lemonade,25,99,0.1,0.1
+88,Monster Energy Drink,54,210,2,0
+89,Powerade,21,80,0,0
+90,Iced Latte,14,90,3,5
+91,Iced Tea,36,140,0,0
+92,Budweiser,10.6,145,1.3,0
+93,Pilsner Beer (generic),12.5,150,1.6,0
+94,Coors Light,5,102,0.7,0
+95,Heineken,11,142,1.5,0
+96,Corona Extra,14,148,1.1,0
+97,Corona Light,5,99,0.8,0
+98,apple turnover,34,270,3,14
+99,chocolate vanilla twist,24,210,4,11
+100,curved butter croissant,38,300,6,16
+101,pain au chocolate,40,300,6,16
+102,raisin custard swirl,30,220,4,9
+103,baguette,77,274,9,1
+104,classic ciabatta,28,150,4.5,1.5
+105,farmer's bread,40,220,6,2
+106,German sourdough bread,26,140,4,1
+107,multigrain seeded bread,20,120,5,2
+108,organic baguette,28,140,4,1
+109,organic multi-grain wheat bread,17,80,4,1
+110,rosemary olive oil bread,22,130,4,6
+111,Tomato and Olive Focaccia Bread,45,290,8,10
+112,Vegetable Oil Spread (45%),0.5,40,0.1,4.5
+113,Country Crock® calcium Spread,0,60,0,6
+114,Country Crock® original,0,60,0,6
+115,Country Crock® plant butter with olive oil,0,60,0,7
+116,homestyle 40% vegetable oil spread,0,105,0,11
+117,Land O'Lakes® salted butter,0,100,0,11
+118,Land O'Lakes® salted butter(half sticks),0,50,0.5,6
+119,Land O'Lakes® unsalted butter,0,100,0,12
+120,Daisy® cottage cheese with blueberries,12,100,12,2
+121,Daisy® cottage cheese with pineapple,10,120,13,2.5
+122,flavored goat cheese crumbles,2,80,4,6
+123,grated Parmesan & Romano cheese,0.2,22,2.2,1.4
+124,grated Parmesan cheese,0.2,22.3,1.4,1.7
+125,shaved Parmesan cheese,0,20,2,1.5
+126,BelGioioso® sliced fresh mozzarella,1,70,5,5
+127,Colby Jack cheese block,0.6,110,6.8,9
+128,Dodoni® feta cheese in brine,264,1.2,14,21
+129,extra sharp cheddar cheese,0.4,113,7.1,9.3
+130,extra sharp cheddar cheese block,0.4,114,7,9
+131,low-moisture part-skim mozzarella cheese block,0.6,78,7,5.3
+132,medium cheddar cheese,0.4,110,7,9
+133,mild cheddar cheese block,1,115,8,9
+134,Yancey's Fancy™ Buffalo wing,1,110,7,9
+135,Yancey's Fancy™ champagne cheddar wedge,1,80,6,7
+136,Yancey's Fancy™ horseradish cheddar cheese,0.4,113,7,9
+137,Yancey's Fancy™ smoked Gouda with bacon,1,120,7,10
+138,finely shredded Colby Jack cheese,1,110,7,9
+139,Colby Jack cheese,0.6,110,7,9
+140,finely shredded Italian blend cheese,1,110,7,9
+141,finely shredded Mexican style cheese,1,20,1.5,1.5
+142,finely shredded Mexican style cheese,1,80,7,6
+143,finely shredded Mexican style cheese(reduced fat),1.07,69.23,8.24,3.89
+144,finely shredded mild cheddar cheese,1,110,7,10
+145,shredded mozzarella cheese,1,80,7,6
+146,shredded Parmesan cheese,0.9,22,1.9,1.4
+147,shredded three cheese blend,1,80,6,6
+148,deli sliced Gouda cheese,0.5,80,5,6
+149,deli sliced Havarti cheese,0.8,110,7,9
+150,deli sliced mild cheddar cheese,0.4,114,7,9
+151,deli sliced mozzarella cheese,2,70,5,5
+152,deli sliced Muenster cheese,0.5,100,6,8
+153,deli sliced pepper Jack cheese,0.5,105,6.8,8.5
+154,deluxe American cheese slices,1,70,3,6
+155,Land O'Lakes® mozzarella cheese slices,2,85,7,7
+156,mild cheddar cheese cracker cuts,17,120,4,7
+157,party tray cheese slices,1,60,4,5
+158,sliced fresh mozzarella cheese,1,70,5,5
+159,cheese cubes Colby Jack,0,80,6,6
+160,cheese cubes mild cheddar,0.5,114,7.6,9.2
+161,Colby Jack cracker cuts,0.6,110,6,9
+162,Fiorucci® Panino™ hard salami,0,130,6,10
+163,jalapeño pimiento cheese,1,80,3,7
+164,mild cheddar cheese cracker cuts,0.41,114.09,6.97,9.28
+165,original pimiento cheese,2,300,13,26
+166,premium snacking cheese bars Colby Jack,0.6,110,7,9
+167,Alouette® double creme brie,1,70,5,6
+168,Atalanta® halloumi cheese,2,130,7,8
+169,Camembert cheese,0.4,85,6,6.5
+170,fresh mozzarella cheese,1.5,70,6,5
+171,goat cheese,0.6,103,6.1,8.2
+172,mozzarella string cheese,1,80,7,6
+173,cream cheese spread(plain),2,50,1,5
+174,Daisy® cottage cheese 2%,3,90,13,2.5
+175,Daisy® Pure & Natural® sour cream,2,60,1,6
+176,Philadelphia® bagel chips & cream cheese dip,17,210,4,12
+177,Philadelphia® cream cheese spread,2,70,2,6
+178,Reduced-Fat Cream Cheese Spread,2,45,2,4
+179,Philadelphia® cream cheese original,1,100,2,9
+180,sour cream,2,54,1,6
+181,sweet and tangy pimiento cheese,3,90,6,12
+182,Green Valley large eggs,0.6,72,6.3,4.8
+183,0% Fat Free Milk,12,85,8,0
+184,extra creamy whipped topping,3,25,0,2.5
+185,almondmilk Milk original,1.5,45,1,2.5
+186,International Delight® hazelnut coffee creamer,6,35,0,1.5
+187,Greek Yogurt (Plain Nonfat),6,100,17,0
+188,Chobani® non-fat plain Greek yogurt,9,90,15,0
+189,Chobani® non-fat vanilla blended Greek yogurt,7,90,16,1
+190,Chobani® peach Greek yogurt,16,120,12,2.5
+191,Greek strawberry nonfat yogurt,18,100,16,1
+192,Light + Fit® vanilla Greek yogurt,9,80,12,0
+193,Light Greek Yogurt with Blueberries,10,80,12,0.5
+194,Oikos® triple zero Greek yogurt vanilla,6,120,15,0
+195,nonfat Greek yogurt plain,6,100,18,0
+196,Danimals smoothie strawberry banana,22,70,2,0
+197,Danimals® smoothie strawberry,17,70,2,0
+198,on the go lowfat yogurt tubes strawberry & vanilla,12,60,4,1
+199,Kozy Shack® original recipe rice pudding,28,120,3,2
+200,Activia Strawberry Banana Drink,27,130,5,1
+201,Activia® yogurt drink mango,20,130,5,2
+202,Chobani® Greek yogurt drink strawberry banana,22,150,12,2.5
+203,avocado,12,234,2.9,21
+204,bananas,27,105,1.3,0.4
+205,black seedless grapes,27,104,1,0.2
+206,blackberries,14.7,62,2,0.7
+207,cantaloupe,12,50,1,0.3
+208,Fuji apples,25,95,0.5,0.3
+209,Gala apples,25,95,0.5,0.3
+210,Granny Smith apples,25,95,0.5,0.3
+211,Cara Cara oranges,27,70,1,0.2
+212,lemon,5.4,17,0.6,0.2
+213,mandarins,12,47,0.8,0.3
+214,navel oranges,14,69,1,0.2
+215,red seedless grapes,27,104,1,0.2
+216,watermelons,11,46,1,0
+217,Honey mango,28,99,1.4,0.6
+218,mango,35,135,1.6,0.5
+219,pineapples,22,82,0.9,0.2
+220,baby carrots,7,30,1,0
+221,baby spinach,0.4,7,0.9,0.1
+222,bella sweets™ super sweet mini peppers,5,25,1,0
+223,broccoli slaw,7,40,2,2
+224,butternut diced,22,85,1,0.3
+225,Cal-Organic® rainbow carrots,12,52,1,0.3
+226, Asian style chopped salad kit,10,100,3,5
+227, sweetkale chopped salad kit,14,150,3,11
+228,celery,3,6,0.3,0.1
+229,English cucumber,2.2,15,0.8,0.1
+230,cucumber,3.78,15,0.65,0.11
+231,French green beans,7,34,2,0.4
+232,green lima beans,27,176,10,1
+233,cabbage,5,22,1,0.1
+234,classic coleslaw,11,90,1,5
+235,iceberg lettuce,2,10,1,0.1
+236,mixed lettuce,2,12,1.2,0.3
+237,red cabbage,6,22,1,0
+238,romaine hearts2.85,17,1.23,0.3,0
+239,portobello mushroom caps,3,18,2,0.3
+240,sliced baby bella mushrooms,3.1,18,2.2,0.3
+241,white mushrooms,3.3,22,3.1,0.3
+242,garlic,33.06,149,6.36,0.5
+243,peeled garlic,16.3,149,6.36,0.5
+244,red onions,10,45,1,0.7
+245,shallots,12,72,2,0.1
+246,sweet yellow onion,9.34,40,1.1,0.1
+247,asparagus,5,20,2,0
+248,Brussels sprouts,9,43,3.4,0.3
+249,corn,21,95,2,1
+250,sweet bell peppers,6,30,1,0.3
+251,sweet potatoes,27,103,2,0.2
+252,potatoes,37,161,4,0.2
+253,red baby potatoes,24,103,2,0.1
+254,cooked beets,17,75,2,0.2
+255,Beets,13,58,2,0.2
+256,ginger,1,5,0.7,0
+257,acorn squash,15,56,1,0.1
+258,Butterball® turkey bacon original,0,25,2,2
+259,hickory smoked bacon,0,42,3,3
+260,Black Angus beef stir fry,12,320,25,14
+261,Black Angus top round steak,0,150,24,5
+262,ground beef 73% lean,0,231,21,16
+263,ground beef 85% lean,0,219,19,15
+264,Frenched rack of lamb,0,290,21,23
+265,organic chicken party wings,1,150,15,8
+266,organic boneless skinless chicken breasts,1,165,31,3
+267,whole young chicken,0,140,27,3
+268,chicken leg quarters,0,220,20,16
+269,fresh Italian sausage,1.1,230,13.5,18.3
+270,Kind® breakfast bars peanut butter,17,250,7,12
+271,Kind Healthy Grains® granola bars peanut butter,21,150,3,7
+272,Cheerios™ cereal,20,100,3,2
+273,chocolate squares cereal,27,130,3,2
+274,Cinnamon Toast Crunch™ cereal,25,130,2,3
+275,cluster of oats & honey cereal,25,120,3,2
+276,Quaker® instant oatmeal  maple brown sugar,32,160,4,2
+277,Quaker® instant oatmeal  apples & cinnamon,33,160,4,2.5
+278,Quaker® instant variety pack,27,120,3,2
+279,breakfast biscuits  blueberry flavored,20,180,3,7
+280,breakfast biscuits oatmeal,27,145,5,2
+281,100% orange juice,26,112,2,0.5
+282,Monster Energy® drink,54,210,2,0
+283,Red Bull® energy drink,28,115,0,0
+284,Red Bull® energy drink sugar free,0.4,10,0.5,0
+285,Minute Maid® fruit punch.27,100,0,0,0
+286,Solevita 100% apple juice,28,120,0.5,0
+287,Chilean Atlantic skinless salmon fillet portions,0,230,25,15
+288,cold smoked Norwegian salmon,0.7,130,18,8
+289,Fish Market cedar plank Atlantic salmon skin on,0,200,24,11
+290,smoked roasted Norwegian salmon,0,190,23,11
+291,frozen jumbo cooked shrimp peeled & deveined,0,65,13,1.2
+292,coca cola diet,0,0,0,0
+293,Coca Cola Original,39,140,0,0
+294,coca cola zero,0,0,0,0
+295,Fanta Orange,44,160,0,0
+296,Sprite Zero Sugar,0,0,0,0
+297,Dr Pepper,40,150,0,0
+298,pepsi,41,150,0,0
+299,pepsi max,0,0,0,0
+300,diet pepsi,0,0,0,0
+301,Pepsi Max Cherry,0,1,0,0

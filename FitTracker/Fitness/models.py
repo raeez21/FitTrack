@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
-
+from django.utils import timezone
 
 class Profile(models.Model):
     class Meta:
@@ -29,18 +29,28 @@ class Profile(models.Model):
             instance.profile.save()
 
 
+
+
+class TargetsHistory(models.Model):
+    class Meta:
+        db_table = "TargetsHistory"
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
+    target_type = models.CharField(max_length=40,null=False)
+    target_value = models.FloatField()
+    created_on = models.DateTimeField(default = timezone.now)    
+
 class Measurements(models.Model):
     class Meta:
         db_table = "Measurements"
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     date = models.DateTimeField(auto_now=True, null=False)
-    height = models.FloatField()
-    weight = models.FloatField()
-    waist = models.FloatField()
-    hip = models.FloatField()
-    bmi = models.FloatField()
-    waist_hip_ratio = models.FloatField()
-    waist_height_ratio = models.FloatField()
+    height = models.FloatField(null=True)
+    weight = models.FloatField(null=True)
+    waist = models.FloatField(null=True)
+    hip = models.FloatField(null=True)
+    bmi = models.FloatField(null=True)
+    waist_hip_ratio = models.FloatField(null=True)
+    waist_height_ratio = models.FloatField(null=True)
 
 class Food(models.Model):
     class Meta:
@@ -70,7 +80,7 @@ class ExerciseLog(models.Model):
     class Meta:
         db_table = "ExerciseLog"
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    name = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, null=False)
     duration = models.IntegerField(null=False)  
 

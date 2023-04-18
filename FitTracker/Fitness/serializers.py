@@ -53,7 +53,32 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'], first_name = validated_data["first_name"] , last_name = validated_data["last_name"])
         return user
 
-class FoodLogSerializer(serializers.ModelSerializer):
+class FoodLogSerializerGet(serializers.ModelSerializer):
+    food_name = serializers.CharField(source='food.name',read_only=True)
     class Meta:
         model = FoodLog
+        #fields = '__all__'
+        fields = ['id', 'date', 'quantity', 'user_profile', 'food_name','food_id']
+    
+class FoodLogSerializerPost(serializers.ModelSerializer):
+    class Meta:
+        model = FoodLog
+        fields = '__all__'
+
+class ExerciseLogSerializerGet(serializers.ModelSerializer):
+    exercise_name = serializers.CharField(source='exercise.name',read_only=True)
+    url = serializers.URLField(source='exercise.url',read_only=True)
+    cal_burned_per_min = serializers.FloatField(source='exercise.cal_burned_per_min',read_only=True)
+    class Meta:
+        model = ExerciseLog
+        fields = ['id', 'user_profile', 'exercise_id' ,'exercise_name', 'date' , 'duration', 'url', 'cal_burned_per_min']
+
+class ExerciseLogSerializerPost(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseLog
+        fields = '__all__'
+
+class MeasurementsSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = Measurements
         fields = '__all__'
