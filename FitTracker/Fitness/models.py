@@ -29,7 +29,6 @@ class Profile(models.Model):
             instance.profile.save()
 
 
-    
 class Measurements(models.Model):
     class Meta:
         db_table = "Measurements"

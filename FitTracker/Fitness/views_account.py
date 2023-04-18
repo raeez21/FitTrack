@@ -14,7 +14,7 @@ from knox.views import LoginView as KnoxLoginView
 
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
-
+    fr = 0
     def get(self, request):
         loggedIn = False
         message = "User not logged in"
@@ -24,7 +24,13 @@ class LoginAPI(KnoxLoginView):
             message = "User is logged in"
             details = request.user.first_name + " " + request.user.last_name + " ID: " + str(request.user.id)
 
-        return Response({"err" : False, "message" : message, "data" : details , "loggedIn" : loggedIn}, status=status.HTTP_200_OK)
+        data = {"err" : False, "message" : message, "data" : details , "loggedIn" : loggedIn}
+        
+        if self.fr == 1:
+            self.fr = 0
+            return render(request, "customs/signin.html", data)
+
+        return Response(data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         
@@ -42,6 +48,7 @@ class LoginAPI(KnoxLoginView):
 
 class AccountView(APIView):
     serializer_class = RegisterSerializer
+    fr = 0
     # what kind of authentication to use. 
     # we will be using only token / session authentication
     # authentication_classes = [SessionAuthentication, BasicAuthentication] 
@@ -59,7 +66,13 @@ class AccountView(APIView):
             obj = UserSerializer(user)
             data.append(obj.data)
 
-        return Response({"status": "success" , "data" : data}, status=status.HTTP_200_OK)
+        data = {"status": "success" , "data" : data}
+        
+        if self.fr == 1:
+            self.fr = 0
+            return render(request, "customs/signup.html", data)
+        else:
+            return Response(data, status=status.HTTP_200_OK)
     
     def post(self, request):
         serializer = self.serializer_class(data=request.data, context={'request': request})
@@ -92,6 +105,7 @@ class AccountView(APIView):
 
 class ProfileView(APIView):
     serializer_class = ProfileSerialzer
+    fr = 0
     # what kind of authentication to use. 
     # we will be using only token / session authentication
     # authentication_classes = [SessionAuthentication, BasicAuthentication] 
@@ -99,17 +113,25 @@ class ProfileView(APIView):
     def get(self, request, id=None):
         profiles = []
 
-        if id == None:
-            profiles = Profile.objects.filter(user__is_active = True)
-        else:
-            profiles.append(Profile.objects.get(user__id = id, user__is_active = True))
+        profiles.append( Profile.objects.get(user__id = request.user.id) )
+
+        # if id == None:
+        #     profiles = Profile.objects.filter(user__is_active = True)
+        # else:
+        #     profiles.append(Profile.objects.get(user__id = id, user__is_active = True))
 
         data = []
         for profile in profiles:
             obj = self.serializer_class(profile).data
             data.append(obj)
 
-        return Response({"status": "success" , "data" : data}, status=status.HTTP_200_OK)
+        data = {"status": "success" , "data" : data}
+
+        if (self.fr == 1):
+            self.fr = 0
+            return render(request, "customs/settings.html" , data)
+        
+        return Response(data, status=status.HTTP_200_OK)
 
     def patch(self, request, id):
         profile = Profile.objects.get(user__id=id)
