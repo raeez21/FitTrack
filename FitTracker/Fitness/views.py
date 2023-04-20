@@ -18,7 +18,7 @@ import requests
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 import random
-from django.db.models import Sum
+from django.db.models import Sum,F, Max, Q
 from django.utils import timezone
 import json
 from datetime import datetime, timedelta
@@ -26,6 +26,7 @@ from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
 from datetime import date
 
+#from django.db.models.functions import TruncDate
 
 def get_food_API(food_name):
     api_key = '9666665392544b19a09736838fa4bc9f'
@@ -33,6 +34,10 @@ def get_food_API(food_name):
     response = requests.get(url)
 
     if response.ok:
+        #print("hi",response.json()['results'])
+        if len(response.json()['results']) == 0:
+            error_data = {'error':'No item found'}
+            return JsonResponse(error_data,status=404)
         data = response.json()['results'][0]#json.loads(response.text)
         food_data = {"food_name":data['title'],\
                      "food_id":data["id"],
@@ -60,7 +65,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
 
     def get(self, request, format=None):
         # Retrieve all the food logs for the current user
-        food_logs = FoodLog.objects.filter(user_profile=request.user.profile)#.select_related('food')
+        food_logs = FoodLog.objects.filter(user_profile=request.user.profile).order_by('-date')#.select_related('food')
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(food_logs, many=True)
         return Response(serializer.data)
@@ -68,7 +73,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
     def post(self, request, format=None):
         request.data['user_profile'] = request.user.profile.id
         food_name = request.data['food_name']
-        food_data = Food.objects.filter(food_name=food_name)#.first()
+        food_data = Food.objects.filter(food_name__iexact=food_name)#.first()
         
         if food_data.exists():
             food_data = food_data.first()
@@ -76,7 +81,11 @@ class FoodLogView(LoginRequiredMixin, APIView):
         else:
             print("Not found in DB:, searching in API")
             food_data = get_food_API(food_name)
+            if isinstance(food_data,JsonResponse):
+                return Response(food_data.content.decode('utf-8'), status=status.HTTP_404_NOT_FOUND)
+            print("Found from API")
             food_data = FoodDict(food_data)
+        
         request.data["food_name"]=food_data.food_name
         request.data["carbs"] = request.data['quantity']*food_data.carbs_per_serving
         request.data["calories"] = request.data['quantity']*food_data.cal_per_serving
@@ -101,10 +110,15 @@ class ExerciseLogView(LoginRequiredMixin, APIView):
             return ExerciseLogSerializerPost
     def get(self, request, format=None):
         # Retrieve all the exercise logs for the current user
-        exercise_logs = ExerciseLog.objects.filter(user_profile=request.user.profile).select_related('exercise')
+        exercise_logs = ExerciseLog.objects.filter(user_profile=request.user.profile).select_related('exercise').order_by('-date')
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(exercise_logs, many=True)
-        return Response(serializer.data)
+
+        exercises = Exercise.objects.all()
+        exercises_data = [{'id': exercise.id, 'name': exercise.name} for exercise in exercises]
+
+        #return Response(serializer.data)
+        return Response({'exercise_logs': serializer.data, 'exercises': exercises_data})
     def post(self, request, format=None):
         request.data['user_profile'] = request.user.profile.id
         serializer  = ExerciseLogSerializerPost(data=request.data)
@@ -175,14 +189,14 @@ class Dashboard(APIView):
     fr = 0
 
     def get(self, request):
+        user_id = request.user.profile.id
         
-        target_water = Profile.objects.filter(user_id = request.user.profile.id).values_list('target_water_intake',flat=True).first()
+        target_water = Profile.objects.filter(user_id = user_id).values_list('target_water_intake',flat=True).first()
         water_consumed = FoodLog.objects.filter\
-                        ( user_profile_id=request.user.profile.id, 
+                        ( user_profile_id=user_id, 
                           food_id=0, #Food ID of Water is 0
                           date__date = timezone.now().date()
-                        ).aggregate(Sum('quantity'))['quantity__sum']
-
+                        ).aggregate(Sum('quantity'))['quantity__sum'] or 0 
                         
         # one_week_ago = datetime.now() - timedelta(weeks=1)
         # #logs = list(FoodLog.objects.filter(date__gte=one_week_ago).values('food_name', 'date', 'calories', 'proteins', 'fat', 'carbs'))
@@ -191,15 +205,25 @@ class Dashboard(APIView):
         #Retrieve foodlog table data for last 1 week to display the graph
         one_week_ago = timezone.now() - timedelta(days=7)
         #The below query gives a list of dict. Each dict is a summary of daily total nutrients, like that we have summary of last 7 days
-        logs = FoodLog.objects.filter(user_profile_id=1, date__gte=one_week_ago).\
-                values('date__date').\
-                annotate(total_calories=Sum('calories'),
-                        total_proteins=Sum('proteins'),
-                        total_fat=Sum('fat'),
-                        total_carbs=Sum('carbs'))
+        #as of now, only the calorie value is used in dashboard, if other nutrients needed uncomment the below lines
+        logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
+                values(log_date = F('date__date')).\
+                annotate(total_calories=Sum('calories'))
+                        #total_proteins=Sum('proteins'),
+                        #total_fat=Sum('fat'),
+                        #total_carbs=Sum('carbs'))
+        target_calories = ( TargetsHistory.objects\
+                                .filter(user_profile_id=user_id, target_type='target_calorie_intake')\
+                                .filter(Q(created_on__gte=datetime.now() - timedelta(days=7)))
+                                .values(date = F('created_on__date'))
+                                .annotate(target_calorie_intake=Max('target_value'))
+                                .order_by('created_on__date'))
+
+        
         #logs = FoodLog.objects.filter(date__gte=one_week_ago).values('food_name', 'calories','proteins','fat','carbs')
         logs_json = json.dumps(list(logs),cls=CustomJSONEncoder)
-        data = {'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json}
+        target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
+        data = {'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
 
         print("Data",data)
         return render(request, "customs/dashboard.html", {}) # {} is the data from DB to front end

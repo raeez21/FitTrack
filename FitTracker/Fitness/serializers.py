@@ -69,9 +69,12 @@ class ExerciseLogSerializerGet(serializers.ModelSerializer):
     exercise_name = serializers.CharField(source='exercise.name',read_only=True)
     url = serializers.URLField(source='exercise.url',read_only=True)
     cal_burned_per_min = serializers.FloatField(source='exercise.cal_burned_per_min',read_only=True)
+    cal_burned = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = ExerciseLog
-        fields = ['id', 'user_profile', 'exercise_id' ,'exercise_name', 'date' , 'duration', 'url', 'cal_burned_per_min']
+        fields = ['id', 'user_profile', 'exercise_id' ,'exercise_name', 'date' , 'duration', 'url', 'cal_burned_per_min','cal_burned']
+    def get_cal_burned(self, obj):
+        return obj.duration * obj.exercise.cal_burned_per_min
 
 class ExerciseLogSerializerPost(serializers.ModelSerializer):
     class Meta:
