@@ -14,3 +14,7 @@ function getCSRFCookie() {
     }
     return cookieValue;
 }
+
+
+
+const HEADER = {'X-CSRFToken': getCSRFCookie()}

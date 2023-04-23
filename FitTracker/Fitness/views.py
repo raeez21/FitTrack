@@ -71,8 +71,9 @@ class FoodLogView(LoginRequiredMixin, APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        request.data['user_profile'] = request.user.profile.id
-        food_name = request.data['food_name']
+        mutable_data = request.data.copy()
+        mutable_data['user_profile'] = request.user.profile.id
+        food_name = mutable_data['food_name']
         food_data = Food.objects.filter(food_name__iexact=food_name)#.first()
         
         if food_data.exists():
@@ -85,15 +86,15 @@ class FoodLogView(LoginRequiredMixin, APIView):
                 return Response(food_data.content.decode('utf-8'), status=status.HTTP_404_NOT_FOUND)
             print("Found from API")
             food_data = FoodDict(food_data)
-        
-        request.data["food_name"]=food_data.food_name
-        request.data["carbs"] = request.data['quantity']*food_data.carbs_per_serving
-        request.data["calories"] = request.data['quantity']*food_data.cal_per_serving
-        request.data["proteins"] = request.data["quantity"]*food_data.pro_per_serving
-        request.data["fat"] = request.data["quantity"]*food_data.fat_per_serving
-        request.data["food_id"] = food_data.food_id
+        print("food",food_data.carbs_per_serving)
+        mutable_data["food_name"]=food_data.food_name
+        mutable_data["carbs"] = float(mutable_data['quantity'])*float(food_data.carbs_per_serving)
+        mutable_data["calories"] = float(mutable_data['quantity'])*float(food_data.cal_per_serving)
+        mutable_data["proteins"] = float(mutable_data["quantity"])*float(food_data.pro_per_serving)
+        mutable_data["fat"] = float(mutable_data["quantity"])*float(food_data.fat_per_serving)
+        mutable_data["food_id"] = food_data.food_id
         #print("req ddata final:",request.data)
-        serializer  = FoodLogSerializerPost(data=request.data)
+        serializer  = FoodLogSerializerPost(data=mutable_data)
         #serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             # Assign the current user's profile to the food log
@@ -120,8 +121,9 @@ class ExerciseLogView(LoginRequiredMixin, APIView):
         #return Response(serializer.data)
         return Response({'exercise_logs': serializer.data, 'exercises': exercises_data})
     def post(self, request, format=None):
-        request.data['user_profile'] = request.user.profile.id
-        serializer  = ExerciseLogSerializerPost(data=request.data)
+        mutable_data = request.data.copy()
+        mutable_data['user_profile'] = request.user.profile.id
+        serializer  = ExerciseLogSerializerPost(data=mutable_data)
         #serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             # Assign the current user's profile to the food log
@@ -191,6 +193,9 @@ class Dashboard(APIView):
     def get(self, request):
         user_id = request.user.profile.id
         error, quote = quotes()
+
+
+        allExercises = Exercise.objects.all()
     
         target_water = Profile.objects.filter(user_id = user_id).values_list('target_water_intake',flat=True).first()
         water_consumed = FoodLog.objects.filter\
@@ -225,7 +230,7 @@ class Dashboard(APIView):
         logs_json = json.dumps(list(logs),cls=CustomJSONEncoder)
         target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
         
-        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
+        data = {'exercises' : allExercises, 'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
 
         print("Data",data)
         return render(request, "customs/dashboard.html", data) # {} is the data from DB to front end
