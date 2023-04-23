@@ -18,13 +18,14 @@ import requests
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 import random
-from django.db.models import Sum,F, Max, Q
+from django.db.models import Sum,F, Max, Q, IntegerField
+
 from django.utils import timezone
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
-from datetime import date
+from django.db.models.functions import TruncDate, Coalesce, Cast
 
 #from django.db.models.functions import TruncDate
 
@@ -144,9 +145,12 @@ class MeasurementsLogView(LoginRequiredMixin, APIView):
         #Height in m, others in cm, weight in kg
         mutable_data = request.data.copy()
         mutable_data['user_profile'] = request.user.profile.id
-        mutable_data['bmi'] = round(float(mutable_data['weight'])/(float(mutable_data['height'])**2),2) if 'height' in mutable_data and 'weight' in mutable_data else None
-        mutable_data['waist_height_ratio'] = round(float(mutable_data['waist'])/(float(mutable_data['height'])*100),2) if 'height' in mutable_data and 'waist' in mutable_data else None
-        mutable_data['waist_hip_ratio'] = round(float(mutable_data['waist'])/float(mutable_data['hip']),2) if 'waist' in mutable_data and 'hip' in mutable_data else None
+        mutable_data['bmi'] = round(float(mutable_data['weight'])/(float(mutable_data['height'])**2),2) if mutable_data["height"] and mutable_data["weight"] else None
+        mutable_data['waist_height_ratio'] = round(float(mutable_data['waist'])/(float(mutable_data['height'])*100),2) if mutable_data['height'] and mutable_data['waist'] else None
+        mutable_data['waist_hip_ratio'] = round(float(mutable_data['waist'])/float(mutable_data['hip']),2) if mutable_data['waist'] and mutable_data['hip'] else None
+        #mutable_data['bmi'] = round(float(mutable_data['weight'])/(float(mutable_data['height'])**2),2) if 'height' in mutable_data and 'weight' in mutable_data else None
+        #mutable_data['waist_height_ratio'] = round(float(mutable_data['waist'])/(float(mutable_data['height'])*100),2) if 'height' in mutable_data and 'waist' in mutable_data else None
+        #mutable_data['waist_hip_ratio'] = round(float(mutable_data['waist'])/float(mutable_data['hip']),2) if 'waist' in mutable_data and 'hip' in mutable_data else None
         serializer = self.serializer_class(data = mutable_data)
         if serializer.is_valid():
             serializer.save()
@@ -186,6 +190,43 @@ class CustomJSONEncoder(DjangoJSONEncoder):
         return super().default(obj)
 
 
+
+def getDashboardData(user_id):
+    target_water = Profile.objects.filter(user_id = user_id).values_list('target_water_intake',flat=True).first()
+    water_consumed = FoodLog.objects.filter\
+                        ( user_profile_id=user_id, 
+                          food_id=0, #Food ID of Water is 0
+                          date__date = timezone.now().date()
+                        ).aggregate(Sum('quantity'))['quantity__sum'] or 0 
+    today = date.today()
+    one_week_ago = today - timedelta(days=6)
+    date_sequence = [one_week_ago + timedelta(days=x) for x in range(7)]#(#today - one_week_ago).days)]
+    logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
+            values(log_date=F('date__date')).\
+            annotate(total_calories=Sum('calories'))
+    food_summary= []
+    for dates in date_sequence:
+        log = logs.filter(log_date=dates)
+        if log.exists():
+            total_calories = round(log.aggregate(Sum('calories'))['calories__sum'])
+            food_summary.append({'log_date': dates, 'total_calories': total_calories})
+            #result.append({'log_date': log.first()['log_date'], 'total_calories': log.first()['total_calories']})
+        else:
+            food_summary.append({'log_date': dates, 'total_calories': 0})
+    food_summary = sorted(food_summary, key=lambda x: x['log_date'])
+    food_summary = json.dumps(list(food_summary),cls=CustomJSONEncoder)
+    
+    target_calories = ( TargetsHistory.objects\
+                            .filter(user_profile_id=user_id, target_type='target_calorie_intake')\
+                            .filter(Q(created_on__gte=datetime.now() - timedelta(days=7)))
+                            .values(date = F('created_on__date'))
+                            .annotate(target_calorie_intake=Max('target_value'))
+                            .order_by('created_on__date'))
+    target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
+    return target_water, water_consumed, food_summary, target_calories
+
+
+    
 class Dashboard(APIView):
 
     fr = 0
@@ -193,44 +234,8 @@ class Dashboard(APIView):
     def get(self, request):
         user_id = request.user.profile.id
         error, quote = quotes()
-
-
-        allExercises = Exercise.objects.all()
-    
-        target_water = Profile.objects.filter(user_id = user_id).values_list('target_water_intake',flat=True).first()
-        water_consumed = FoodLog.objects.filter\
-                        ( user_profile_id=user_id, 
-                          food_id=0, #Food ID of Water is 0
-                          date__date = timezone.now().date()
-                        ).aggregate(Sum('quantity'))['quantity__sum'] or 0 
-                        
-        # one_week_ago = datetime.now() - timedelta(weeks=1)
-        # #logs = list(FoodLog.objects.filter(date__gte=one_week_ago).values('food_name', 'date', 'calories', 'proteins', 'fat', 'carbs'))
-        # #json_logs = json.dumps(logs)
-
-        #Retrieve foodlog table data for last 1 week to display the graph
-        one_week_ago = timezone.now() - timedelta(days=7)
-        #The below query gives a list of dict. Each dict is a summary of daily total nutrients, like that we have summary of last 7 days
-        #as of now, only the calorie value is used in dashboard, if other nutrients needed uncomment the below lines
-        logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
-                values(log_date = F('date__date')).\
-                annotate(total_calories=Sum('calories'))
-                        #total_proteins=Sum('proteins'),
-                        #total_fat=Sum('fat'),
-                        #total_carbs=Sum('carbs'))
-        target_calories = ( TargetsHistory.objects\
-                                .filter(user_profile_id=user_id, target_type='target_calorie_intake')\
-                                .filter(Q(created_on__gte=datetime.now() - timedelta(days=7)))
-                                .values(date = F('created_on__date'))
-                                .annotate(target_calorie_intake=Max('target_value'))
-                                .order_by('created_on__date'))
-
-        
-        #logs = FoodLog.objects.filter(date__gte=one_week_ago).values('food_name', 'calories','proteins','fat','carbs')
-        logs_json = json.dumps(list(logs),cls=CustomJSONEncoder)
-        target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
-        
-        data = {'exercises' : allExercises, 'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
+        target_water, water_consumed, food_summary, target_calories = getDashboardData(user_id)
+        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":food_summary,"target_calories":target_calories}
 
         print("Data",data)
         return render(request, "customs/dashboard.html", data) # {} is the data from DB to front end
