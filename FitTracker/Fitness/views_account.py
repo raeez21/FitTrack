@@ -1,6 +1,8 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponseRedirect
 from .models import Profile
-from .serializers import ProfileSerialzer, RegisterSerializer, UserSerializer
+from django.urls import reverse
+
+from .serializers import ProfileSerialzer, RegisterSerializer, UserSerializer, ChangePasswordSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +12,18 @@ from rest_framework import generics, permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
 from knox.views import LoginView as KnoxLoginView
+
+class ChangePassword(APIView):
+    def patch(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        # if using drf authtoken, create a new token 
+        # if hasattr(user, 'auth_token'):
+            # user.auth_token.delete()
+        # token, created = Token.objects.get_or_create(user=user)
+        # return new token
+        return Response({'message': "Password Changed"}, status=status.HTTP_200_OK)
 
 
 class LoginAPI(KnoxLoginView):
@@ -33,7 +47,8 @@ class LoginAPI(KnoxLoginView):
         return Response(data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        
+        print("DATA RECEVIED", request)
+
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
@@ -48,13 +63,16 @@ class LoginAPI(KnoxLoginView):
 
 
 class AccountView(APIView):
-    serializer_class = RegisterSerializer
     fr = 0
     # what kind of authentication to use. 
     # we will be using only token / session authentication
     # authentication_classes = [SessionAuthentication, BasicAuthentication] 
 
     def get(self, request, id=None):
+
+        # if request.user.is_authenticated and self.fr == 1:
+        #     return HttpResponseRedirect(reverse('dashboard'))
+
         users = []
 
         if id == None:
@@ -76,17 +94,22 @@ class AccountView(APIView):
             return Response(data, status=status.HTTP_200_OK)
     
     def post(self, request):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
+        print("POST", request.data, request)
+
+        obj = User.objects.filter(email = request.data["email"])
+        if len(obj) != 0:
+            return Response({"statis": "error", "message" : "User with the provided email already exists" , "data" : {"message" : ["User with the provided email already exists"] }}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = RegisterSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-
             return Response({"status": "success","message":"New Profile created successfully", "data": serializer.data, "append":True}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "message":"err", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id):
         user = User.objects.get(id=id)
-        serializer = self.serializer_class(user, data=request.data, partial=True)
+        serializer = RegisterSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success","message":"user updated successfully", "data": serializer.data} , status=status.HTTP_200_OK)
@@ -126,7 +149,7 @@ class ProfileView(APIView):
             obj = self.serializer_class(profile).data
             data.append(obj)
 
-        data = {"status": "success" , "data" : data}
+        data = {"status": "success" , "data" : data, "profile" : profiles[0]}
 
         if (self.fr == 1):
             self.fr = 0
@@ -134,7 +157,10 @@ class ProfileView(APIView):
         
         return Response(data, status=status.HTTP_200_OK)
 
-    def patch(self, request, id):
+    def patch(self, request, id = None):
+        if id == None: 
+            id = request.user.id
+
         profile = Profile.objects.get(user__id=id)
         serializer = self.serializer_class(profile, data=request.data, partial=True)
         if serializer.is_valid():

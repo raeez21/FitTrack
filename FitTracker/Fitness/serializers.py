@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth import password_validation
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 from django.contrib.auth.models import User
 
 
@@ -20,6 +23,7 @@ class ProfileSerialzer(serializers.ModelSerializer):
         weight = self._kgToPound(validated_data.get('weight', instance.weight))
     
         instance.gender = validated_data.get("gender", instance.gender)
+
         instance.dob = validated_data.get("dob", instance.dob)
 
         instance.weight = validated_data.get("weight", instance.weight)
@@ -41,6 +45,32 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("__all__")
 
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=128, write_only=True, required=True)
+    new_password1 = serializers.CharField(max_length=128, write_only=True, required=True)
+
+    def validate_old_password(self, value):
+        user = serializers.CurrentUserDefault().user
+        if not user.check_password(value):
+            raise serializers.ValidationError(
+                _('Your old password was entered incorrectly. Please enter it again.')
+            )
+        return value
+
+    def validate(self, data):
+        password_validation.validate_password(data['new_password1'], serializers.CurrentUserDefault())
+        return data
+
+    def save(self, **kwargs):
+        password = self.validated_data['new_password1']
+        
+        user = serializers.CurrentUserDefault()
+        user.set_password(password)
+        user.save()
+        return user
+    
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):

@@ -6,31 +6,78 @@
 <!-- Page Content Starts From Here -->
 {% block content %}
 
-<div class="col-md-6 grid-margin stretch-card">
-	<div class="card">
-		<div class="card-body">
-			<h4 class="card-title">Account Settings</h4>
-			<form class="forms-sample">
+<div class="col-md-6 grid-margin container">
+	
+	<div class="row col-12">
 
-				<div class="form-group">
-					<label for="exampleInputPassword1">Current Password</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-				</div>
+		<div class="card col-12">
+			<div class="card-body">
+				<h4 class="card-title">Account Settings</h4>
+				<form id="changePassword" class="forms-sample">
+	
+					{% csrf_token %}
+	
+					
+					<div class="form-group">
+						<label for="exampleInputPassword1">Current Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1" name="old_password" value='{{ profile.old_password }}' placeholder="Password">
+					</div>
+	
+					<div class="form-group">
+						<label for="password1">New Password</label>
+						<input type="password" class="form-control" id="password1" name="new_password" value='{{ profile.new_password }}' placeholder="Password">
+					</div>
+					<div class="form-group">
+						<label for="password2">Confirm New Password</label>
+						<input type="password" class="form-control" id="password2"
+							placeholder="Password">
+					</div>
+	
+					<div class="form-group">
+						<code id="error"></code>
+					</div>
+	
+					<button type="submit" class="btn btn-primary mr-2">Change Password</button>
+				</form>
+			</div>
+		</div>
+		
+	</div>
 
-				<div class="form-group">
-					<label for="exampleInputPassword1">New Password</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputConfirmPassword1">Confirm New Password</label>
-					<input type="password" class="form-control" id="exampleInputConfirmPassword1"
-						placeholder="Password">
-				</div>
-
-				<button type="submit" class="btn btn-primary mr-2">Change Password</button>
-			</form>
+	<div class="row col-12">
+		<div class="card col-12">
+			<div class="card-body">
+				<h4 class="card-title">Measurements</h4>
+				<form id="changePassword" class="forms-sample">
+	
+					{% csrf_token %}
+	
+					
+					<div class="form-group">
+						<label for="exampleInputPassword1">Current Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1" name="old_password" value='{{ profile.old_password }}' placeholder="Password">
+					</div>
+	
+					<div class="form-group">
+						<label for="password1">New Password</label>
+						<input type="password" class="form-control" id="password1" name="new_password" value='{{ profile.new_password }}' placeholder="Password">
+					</div>
+					<div class="form-group">
+						<label for="password2">Confirm New Password</label>
+						<input type="password" class="form-control" id="password2"
+							placeholder="Password">
+					</div>
+	
+					<div class="form-group">
+						<code id="error"></code>
+					</div>
+	
+					<button type="submit" class="btn btn-primary mr-2">Change Password</button>
+				</form>
+			</div>
 		</div>
 	</div>
+
 </div>
 
 
@@ -39,60 +86,66 @@
 	<div class="card">
 		<div class="card-body">
 			<h4 class="card-title">Profile Settings</h4>
-			<form class="forms-sample">
+			<form id="updateProfile" class="forms-sample">
+
+				{% csrf_token %}
 
 				<div class="form-group">
 					<label for="exampleFormControlSelect2">Gender</label>
-					<select class="form-control" id="exampleFormControlSelect2">
-						<option>Male</option>
-						<option>Female</option>
-						<option>Others</option>
+					<select class="form-control" id="gender" name="gender" value='{{ profile.gender }}' id="exampleFormControlSelect2">
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+						<option value="O">Others</option>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<label for="dob">Date of Birth</label>
-					<input class="form-control" placeholder="dd/mm/yyyy" id="dob">
+					<input type="date" class="form-control" placeholder="yyyy/mm/dd" name="dob" value='{{ profile.dob|date:"Y-m-d"}}' id="dob">
 
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputPassword1">Weight</label>
-					<input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+					<input type="number" class="form-control" name="weight" value='{{ profile.weight }}' id="exampleInputPassword1" placeholder="Password">
 				</div>
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Height</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Height">
+					<input type="number" class="form-control" name="height" value='{{ profile.height }}' id="exampleInputConfirmPassword1" placeholder="Height">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Calorie Intake</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Calorie Intake">
+					<input type="number" class="form-control" name="target_calorie_intake" value='{{ profile.target_calorie_intake }}' id="exampleInputConfirmPassword1" placeholder="Target Calorie Intake">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Calorie Burn</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Calorie Burn">
+					<input type="number" class="form-control" name="target_calorie_burn" value='{{ profile.target_calorie_burn }}' id="exampleInputConfirmPassword1" placeholder="Target Calorie Burn">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Carbohydrate Intake</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Carbohydrate Intake">
+					<input type="number" class="form-control" name="target_carbohydrate_intake" value='{{ profile.target_carbohydrate_intake }}' id="exampleInputConfirmPassword1" placeholder="Target Carbohydrate Intake">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Protein Intake</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Protein Intake">
+					<input type="number" class="form-control" name="target_protein_intake" value='{{ profile.target_protein_intake }}' id="exampleInputConfirmPassword1" placeholder="Target Protein Intake">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Fat Intake</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Fat Intake">
+					<input type="number" class="form-control" name="target_fat_intake" value='{{ profile.target_fat_intake }}' id="exampleInputConfirmPassword1" placeholder="Target Fat Intake">
 				</div>
 
 				<div class="form-group">
 					<label for="exampleInputConfirmPassword1">Target Water Intake</label>
-					<input type="number" class="form-control" id="exampleInputConfirmPassword1" placeholder="Target Water Intake">
+					<input type="number" class="form-control" name="target_water_intake" value='{{ profile.target_water_intake }}' id="exampleInputConfirmPassword1" placeholder="Target Water Intake">
+				</div>
+
+				<div class="form-group">
+					<code id="error"></code>
 				</div>
 
 				<button type="submit" class="btn btn-primary mr-2">Update Profile</button>
@@ -105,6 +158,104 @@
 <!-- Page Content Ends -->
 {% endblock content %}
 
+
 {% block js %}
+
+<script>
+
+
+$("#updateProfile").on("submit", function (e) {
+		e.preventDefault();
+		
+		data = $(this).serialize();
+		console.log("CSRF", CSRF);
+		header = {'X-CSRFToken': CSRF}
+		data["csrfmiddlewaretoken"] = CSRF;
+
+		console.log("old" , data, data["gender"]);
+
+		// dobParts = data["dob"].split("/");
+		// data["dob"] = dobParts[2] + "-" + dobParts[0] + "-" + dobParts[1];
+
+		data = {
+			"gender" : $('#gender option:selected').val(),
+			"dob" : $('input[name="dob"]').val(),
+			"weight" : parseInt($('input[name="weight"]').val()),
+			"height" : parseInt($('input[name="height"]').val()),
+			"target_calorie_intake" : parseInt($('input[name="target_calorie_intake"]').val()),
+			"target_calorie_burn" : parseInt($('input[name="target_calorie_burn"]').val()),
+			"target_carbohydrate_intake" : parseInt($('input[name="target_carbohydrate_intake"]').val()),
+			"target_protein_intake" : parseInt($('input[name="target_protein_intake"]').val()),
+			"target_fat_intake" : parseInt($('input[name="target_fat_intake"]').val()),
+			"target_water_intake" : parseInt($('input[name="target_water_intake"]').val())
+		}
+
+
+
+		console.log("new" , data);
+
+		$.ajax({
+			type: "PATCH",
+			url: "/profile",
+			headers : header,
+			data: data,
+			success: function(data){
+				console.log( "Data Saved: " , data );
+				// window.location.href = "/fr/dashboard/";
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				var status = XMLHttpRequest.status;
+				var data = XMLHttpRequest.responseJSON;
+
+				console.log(status, data);
+
+				message = data["non_field_errors"][0];
+
+				$("#error").text(message);
+			}
+		});
+
+
+
+
+	});
+
+
+	$("#changePassword").on("submit", function (e) {
+		e.preventDefault();
+
+		data = $(this).serialize();
+		console.log("CSRF", CSRF);
+		header = {'X-CSRFToken': CSRF}
+		data["csrfmiddlewaretoken"] = CSRF;
+		$.ajax({
+			type: "PATCH",
+			url: "/changepassword/",
+			headers : header,
+			data: data,
+			success: function(data){
+				console.log( "Data Saved: " , data );
+				// window.location.href = "/fr/dashboard/";
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				var status = XMLHttpRequest.status;
+				var data = XMLHttpRequest.responseJSON;
+
+				console.log(status, data);
+
+				message = data["non_field_errors"][0];
+
+				$("#error").text(message);
+			}
+		});
+
+
+
+
+	});
+
+
+
+</script>
 
 {% endblock js %}

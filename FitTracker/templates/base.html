@@ -100,6 +100,16 @@
     <script src="{% static 'js/file-upload.js' %}"></script>
     <script src="{% static 'js/typeahead.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    
+    <script>
+        const HOST = "http://127.0.0.1:8000/";
+        const CSRF = getCSRFCookie();
+        console.log("CSRF", CSRF);
+    </script>
 
     <!-- <script src="{% static 'js/select2.js' %}"></script> -->
     <!-- <script src="{% static 'js/custom.js' %}"></script> -->
