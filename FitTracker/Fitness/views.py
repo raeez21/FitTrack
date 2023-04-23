@@ -18,7 +18,7 @@ import requests
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 import random
-from django.db.models import Sum,F, Max, Q, IntegerField
+from django.db.models import Sum,F, Max, Q, IntegerField, FloatField, ExpressionWrapper
 
 from django.utils import timezone
 import json
@@ -198,32 +198,56 @@ def getDashboardData(user_id):
                           food_id=0, #Food ID of Water is 0
                           date__date = timezone.now().date()
                         ).aggregate(Sum('quantity'))['quantity__sum'] or 0 
+    water = {"target":target_water,"consumed":water_consumed}
+
     today = date.today()
     one_week_ago = today - timedelta(days=6)
     date_sequence = [one_week_ago + timedelta(days=x) for x in range(7)]#(#today - one_week_ago).days)]
-    logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
+    
+    f_logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
             values(log_date=F('date__date')).\
             annotate(total_calories=Sum('calories'))
-    food_summary= []
-    for dates in date_sequence:
-        log = logs.filter(log_date=dates)
-        if log.exists():
-            total_calories = round(log.aggregate(Sum('calories'))['calories__sum'])
-            food_summary.append({'log_date': dates, 'total_calories': total_calories})
-            #result.append({'log_date': log.first()['log_date'], 'total_calories': log.first()['total_calories']})
-        else:
-            food_summary.append({'log_date': dates, 'total_calories': 0})
-    food_summary = sorted(food_summary, key=lambda x: x['log_date'])
-    food_summary = json.dumps(list(food_summary),cls=CustomJSONEncoder)
+    m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi','date__date')
     
-    target_calories = ( TargetsHistory.objects\
-                            .filter(user_profile_id=user_id, target_type='target_calorie_intake')\
-                            .filter(Q(created_on__gte=datetime.now() - timedelta(days=7)))
-                            .values(date = F('created_on__date'))
-                            .annotate(target_calorie_intake=Max('target_value'))
-                            .order_by('created_on__date'))
-    target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
-    return target_water, water_consumed, food_summary, target_calories
+    e_logs = ExerciseLog.objects.filter(user_profile_id=1,date__gte = one_week_ago).\
+            values('date__date').\
+            annotate(calBurn=Sum(ExpressionWrapper(F('duration') * F('exercise__cal_burned_per_min'),
+                                            output_field=FloatField())))
+    one_week_summary= []
+    for dates in date_sequence:
+        f_log = f_logs.filter(log_date=dates)
+        m_log = m_logs.filter(date__date = dates)
+        e_log = e_logs.filter(date__date = dates)
+        if f_log.exists():
+            total_calories = round(f_log.aggregate(Sum('calories'))['calories__sum'])
+        else:
+            total_calories = 0
+        if m_log.exists():
+            weight = m_log.first()['weight']
+            bmi = m_log.first()['bmi']
+        else:
+            weight = 0
+            bmi = 0
+        if e_log.exists():
+            total_calories_burned = e_log.first()['calBurn']
+        else:
+            total_calories_burned = 0
+        one_week_summary.append({'log_date': dates, 'total_calories_intake': total_calories,'total_calories_burned':total_calories_burned,'weight':weight,'bmi':bmi})
+            #food_summary.append({'log_date': dates, 'total_calories': 0})
+    one_week_summary = sorted(one_week_summary, key=lambda x: x['log_date'])
+    one_week_summary = json.dumps(list(one_week_summary),cls=CustomJSONEncoder)
+    
+    #m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi')
+    
+    # target_calories = ( TargetsHistory.objects\
+    #                         .filter(user_profile_id=user_id, target_type='target_calorie_intake')\
+    #                         .filter(Q(created_on__gte=datetime.now() - timedelta(days=7)))
+    #                         .values(date = F('created_on__date'))
+    #                         .annotate(target_calorie_intake=Max('target_value'))
+    #                         .order_by('created_on__date'))
+    targets =  Profile.objects.filter(user_id=user_id).values('target_calorie_intake', 'target_calorie_burn').first()
+    #target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
+    return water, one_week_summary, targets
 
 
     
@@ -234,8 +258,8 @@ class Dashboard(APIView):
     def get(self, request):
         user_id = request.user.profile.id
         error, quote = quotes()
-        target_water, water_consumed, food_summary, target_calories = getDashboardData(user_id)
-        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":food_summary,"target_calories":target_calories}
+        water, one_week_summary, targets = getDashboardData(user_id)
+        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, "water":water,"one_week_summary":one_week_summary,"targets":targets}
 
         print("Data",data)
         return render(request, "customs/dashboard.html", data) # {} is the data from DB to front end
