@@ -23,20 +23,21 @@
 
 				<form>
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Food Name" aria-label="Recipient's username">
+						<input type="text" class="form-control" placeholder="Food Name"
+							aria-label="Recipient's username">
 					</div>
-	
-	
+
+
 					<div class="form-group">
 						<input type="number" class="form-control" placeholder="Total Calories"
 							aria-label="Recipient's username">
 					</div>
-				
+
 				</form>
 
 				<h4 align="center"> OR </h4>
-				  
-				
+
+
 				<form>
 					<div class="form-group">
 						<!-- <label for="exampleFormControlSelect2">Meal Type</label> -->
@@ -266,61 +267,81 @@
 </div>
 
 
+<!-- Top Buttons -->
+
+<div class="row col-12">
+
+	<div class="col-xl-12 grid-margin stretch-card flex-column" style="background-color: transparent; border: none;">
+		<div class="card" style="background-color: transparent; border: none; box-shadow: none;">
+			<div class="card-body d-flex flex-column justify-content-between p-0">
+
+				<div class="justify-content-between align-items-center mb-12 p-0">
+
+					<button type="button"
+						class="btn col-lg-2 col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12 p-1 btn-primary btn-icon-text"
+						data-toggle="modal" data-target="#addMealModal">
+						<span class="mdi mdi-food" style="font-size:30px;"></span>
+						Add Meal
+					</button>
+
+					<button type="button"
+						class="btn col-lg-2 col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12 p-1 btn-primary btn-icon-text"
+						data-toggle="modal" data-target="#addMealModal">
+						<span class="mdi mdi-run" style="font-size:30px;"></span>
+						Add Exercise
+					</button>
+
+					<button type="button"
+						class="btn col-lg-2 col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12 p-1 btn-primary btn-icon-text"
+						data-toggle="modal" data-target="#addMealModal">
+						<span class="mdi mdi-water" style="font-size:30px;"></span>
+						Drink Water
+					</button>
+
+					<button type="button"
+						class="btn col-lg-2 col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12 p-1 btn-primary btn-icon-text"
+						data-toggle="modal" data-target="#addMealModal">
+						<span class="mdi mdi-camera-enhance" style="font-size:30px;"></span>
+
+						Scan Product
+					</button>
+
+					<button type="button"
+						class="btn col-lg-2 col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12 p-1 btn-primary btn-icon-text"
+						data-toggle="modal" data-target="#addMealModal">
+						<span class="mdi mdi-human-male-height" style="font-size:30px;"></span>
+
+
+						Body Measurements
+					</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<!-- Main Dashboard -->
+
 <div class="row">
 	<div class="col-xl-6 grid-margin stretch-card flex-column">
-		<div class="card">
-			<div class="card-body d-flex flex-column justify-content-between">
-
-				<div class="justify-content-between align-items-center mb-12">
-					<p>"If something stands between you and your success, move it. Never be denied.”
-					<p class="text-muted"> – Dwayne “The Rock” Johnson</p>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-6 grid-margin stretch-card flex-column">
-		<div class="card">
-			<div class="card-body d-flex flex-column justify-content-between">
-
-				<div class="justify-content-between align-items-center mb-12">
-
-					<button class="btn btn-primary col-4 col-sm-4" data-toggle="modal" data-target="#addMealModal"> Enter Meal </button>
-				
-					<button class="btn btn-primary col-3 col-sm-3" data-toggle="modal"
-						data-target="#addCustomMealModal"> Drank Water </button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-12 grid-margin stretch-card flex-column">
 
 		<div class="row">
-			<div class="col-md-3 grid-margin stretch-card">
+			<div class="col-md-6 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body d-flex flex-column justify-content-between">
 
 						<div class="justify-content-between align-items-center mb-12">
-							<p class="mb-12 text-muted">User Information</p>
-
-							<b>Name:</b> AK <br>
-							<b>Age: </b> 99 <br>
-							<b>height:</b> 101 <br>
-							<b>weight:</b> 101 <br>
-							<b>waist:</b> 101 <br>
-							<b>hip:</b> 101 <br>
-							<b>bmi:</b> 101 <br>
-							<b>waist hip ratio:</b> 101 <br>
-							<b>waist height ratio:</b> 101 <br>
-							<b>waist height ratio:</b> 101 <br>
-							<b>waist height ratio:</b> 101 <br>
-							<b>waist height ratio:</b> 101 <br>
-
+							<p class="mb-12 text-muted">Quote of the day</p>
+							<p> {{quote.quote}}</p>
+							<p class="text-muted"> {{quote.author}}</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 grid-margin stretch-card">
+			<div class="col-md-6 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body d-flex flex-column justify-content-between">
 
@@ -329,25 +350,29 @@
 							<!-- <h4>5 / 8</h4> -->
 
 							<!-- <div class="row">
-								<div class="btn-group" role="group" aria-label="Basic example">
-									<button type="button" class="btn btn-rounded btn-success">
-										<i class="typcn typcn-heart-outline"></i>
-									</button>
-									<button type="button" class="btn btn-rounded btn-danger">
-										<i class="typcn typcn-time"></i>
-									</button>
-								</div>
-							</div> -->
+									<div class="btn-group" role="group" aria-label="Basic example">
+										<button type="button" class="btn btn-rounded btn-success">
+											<i class="typcn typcn-heart-outline"></i>
+										</button>
+										<button type="button" class="btn btn-rounded btn-danger">
+											<i class="typcn typcn-time"></i>
+										</button>
+									</div>
+								</div> -->
 
-							<canvas id="water" 
-								class="chartjs-render-monitor"></canvas>
+							<canvas id="water" class="chartjs-render-monitor"></canvas>
 
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		
+	</div>
+	<div class="col-xl-6 grid-margin stretch-card flex-column">
 
-			<div class="col-md-6 stretch-card">
+		<div class="row h-100">
+			<div class="col-md-12 stretch-card">
 				<div class="card">
 					<div class="card-body">
 						<div class="chartjs-size-monitor">
@@ -360,8 +385,8 @@
 						</div>
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
-								<p class="mb-3">Daily Calorie Consumption</p>
-								<h3>2500</h3>
+								<p class="mb-3">Daily Calorie Consumed & Burned</p>
+								<h3>1000 / 2500</h3>
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
 								<div class="d-flex align-items-center">
@@ -373,17 +398,17 @@
 							</div>
 						</div>
 
-						<canvas id="targets" 
-							class="chartjs-render-monitor"></canvas>
+						<canvas id="targets" class="chartjs-render-monitor"></canvas>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- <div class="col-xl-12 grid-margin stretch-card flex-column">
-		<div class="row h-200">
-			<div class="col-md-4 stretch-card">
+	<div class="col-xl-6 grid-margin stretch-card flex-column">
+
+		<div class="row h-100">
+			<div class="col-md-12 stretch-card">
 				<div class="card">
 					<div class="card-body">
 						<div class="chartjs-size-monitor">
@@ -396,8 +421,8 @@
 						</div>
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
-								<p class="mb-3">Daily Calorie Consumption</p>
-								<h3>2500</h3>
+								<p class="mb-3">Daily Calorie Consumed & Burned</p>
+								<h3>1000 / 2500</h3>
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
 								<div class="d-flex align-items-center">
@@ -408,189 +433,137 @@
 								</div>
 							</div>
 						</div>
-						<canvas id="targets" width="875" height="310"
-							style="display: block; height: 273px; width: 547px;"
-							class="chartjs-render-monitor"></canvas>
+
+						<canvas id="targets" class="chartjs-render-monitor"></canvas>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-md-4 stretch-card">
-				<div class="card">
-					<div class="card-body">
-						<div class="chartjs-size-monitor">
-							<div class="chartjs-size-monitor-expand">
-								<div class=""></div>
-							</div>
-							<div class="chartjs-size-monitor-shrink">
-								<div class=""></div>
-							</div>
-						</div>
-						<div class="d-flex justify-content-between align-items-start flex-wrap">
-							<div>
-								<p class="mb-3">Daily Calorie Consumption</p>
-								<h3>2500</h3>
-							</div>
-							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
-								<div class="d-flex align-items-center">
-									<div class="mr-2"
-										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
-										data-darkreader-inline-bgcolor=""></div>
-									<p class="mb-0">Consumption</p>
-								</div>
-							</div>
-						</div>
-						<canvas id="targets" width="875" height="310"
-							style="display: block; height: 273px; width: 547px;"
-							class="chartjs-render-monitor"></canvas>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4 stretch-card">
-				<div class="card">
-					<div class="card-body">
-						<div class="chartjs-size-monitor">
-							<div class="chartjs-size-monitor-expand">
-								<div class=""></div>
-							</div>
-							<div class="chartjs-size-monitor-shrink">
-								<div class=""></div>
-							</div>
-						</div>
-						<div class="d-flex justify-content-between align-items-start flex-wrap">
-							<div>
-								<p class="mb-3">Daily Calorie Consumption</p>
-								<h3>2500</h3>
-							</div>
-							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
-								<div class="d-flex align-items-center">
-									<div class="mr-2"
-										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
-										data-darkreader-inline-bgcolor=""></div>
-									<p class="mb-0">Consumption</p>
-								</div>
-							</div>
-						</div>
-						<canvas id="targets" width="875" height="310"
-							style="display: block; height: 273px; width: 547px;"
-							class="chartjs-render-monitor"></canvas>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4 stretch-card">
-				<div class="card">
-					<div class="card-body">
-						<div class="chartjs-size-monitor">
-							<div class="chartjs-size-monitor-expand">
-								<div class=""></div>
-							</div>
-							<div class="chartjs-size-monitor-shrink">
-								<div class=""></div>
-							</div>
-						</div>
-						<div class="d-flex justify-content-between align-items-start flex-wrap">
-							<div>
-								<p class="mb-3">Daily Calorie Consumption</p>
-								<h3>2500</h3>
-							</div>
-							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
-								<div class="d-flex align-items-center">
-									<div class="mr-2"
-										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
-										data-darkreader-inline-bgcolor=""></div>
-									<p class="mb-0">Consumption</p>
-								</div>
-							</div>
-						</div>
-						<canvas id="targets" width="875" height="310"
-							style="display: block; height: 273px; width: 547px;"
-							class="chartjs-render-monitor"></canvas>
-					</div>
-				</div>
-			</div>
-
 		</div>
-	</div> -->
+	</div>
+
+	<div class="col-xl-6 grid-margin stretch-card flex-column">
+
+		<div class="row h-100">
+			<div class="col-md-12 stretch-card">
+				<div class="card">
+					<div class="card-body">
+						<div class="chartjs-size-monitor">
+							<div class="chartjs-size-monitor-expand">
+								<div class=""></div>
+							</div>
+							<div class="chartjs-size-monitor-shrink">
+								<div class=""></div>
+							</div>
+						</div>
+						<div class="d-flex justify-content-between align-items-start flex-wrap">
+							<div>
+								<p class="mb-3">Daily Calorie Consumed & Burned</p>
+								<h3>1000 / 2500</h3>
+							</div>
+							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
+								<div class="d-flex align-items-center">
+									<div class="mr-2"
+										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
+										data-darkreader-inline-bgcolor=""></div>
+									<p class="mb-0">Consumption</p>
+								</div>
+							</div>
+						</div>
+
+						<canvas id="targets" class="chartjs-render-monitor"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
-<!-- Page Content Ends -->
-{% endblock content %}
 
-{% block js %}
-<script>
-	// const c = document.getElementById("targets").getContext("2d");
-	const calorieCtx = document.getElementById('targets');
-	const waterCtx = document.getElementById("water");
 
-	function calorieTarget(ctx) {
-		var myChart = new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels:
-					["Monday", "Tuesday", "Wednesday", "Thurdsday", "Friday", "Saturday", "Sunday"],
-				datasets: [
-					{
-						label: 'Consumption',
-						borderColor: "cyan",
-						borderWidth: 2,
-						fill: false,
-						data: [600, 1000, 500, 2000, 2500, 1500, 1800]
+	<!-- Page Content Ends -->
+	{% endblock content %}
+
+	{% block js %}
+	<script>
+		// const c = document.getElementById("targets").getContext("2d");
+		const calorieCtx = document.getElementById('targets');
+		const waterCtx = document.getElementById("water");
+
+		function calorieTarget(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels:
+						["Mondaya", "Tuesday", "Wednesday", "Thurdsday", "Friday", "Saturday", "Sunday"],
+					datasets: [
+						{
+							label: 'Consumed',
+							borderColor: "red",
+							borderWidth: 2,
+							fill: false,
+							data: [600, 1000, 500, 2000, 2500, 1500, 1800]
+						},
+
+						{
+							label: 'Burned',
+							borderColor: "green",
+							borderWidth: 2,
+							fill: false,
+							data: [12, 15, 4, 6, 8, 2, 10]
+						},
+
+					]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Chart.js Drsw Line on Chart'
 					},
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+				}
+			});
+		}
 
-				]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Chart.js Drsw Line on Chart'
+		function waterTarget(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels:
+						["Consumed", "Target"],
+
+					datasets: [{
+						label: 'Water Consumption',
+						data: [5, 8],
+						backgroundColor: [
+							'rgb(54, 162, 235)',
+							'rgb(59, 59, 59)'
+
+						],
+						hoverOffset: 4
+					}]
 				},
-				tooltips: {
-					mode: 'index',
-					intersect: true
-				},
-			}
-		});
-	}
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Chart.js Drsw Line on Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+				}
+			});
+		}
 
-	function waterTarget(ctx) {
-		var myChart = new Chart(ctx, {
-			type: 'pie',
-			data: {
-				labels:
-					["Consumed", "Target"],
+		calorieTarget(calorieCtx);
+		waterTarget(waterCtx);
+	</script>
 
-				datasets: [{
-					label: 'Water Consumption',
-					data: [5, 8],
-					backgroundColor: [
-						'rgb(54, 162, 235)',
-						'rgb(59, 59, 59)'
-
-					],
-					hoverOffset: 4
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Chart.js Drsw Line on Chart'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: true
-				},
-			}
-		});
-	}
-
-	calorieTarget(calorieCtx);
-	waterTarget(waterCtx);
-</script>
-
-{% endblock js %}
+	{% endblock js %}

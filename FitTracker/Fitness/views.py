@@ -152,9 +152,7 @@ class MeasurementsLogView(LoginRequiredMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(('GET',))
-@renderer_classes((JSONRenderer,))
-def quotes(request):
+def quotes():
     categories = ["health" , "inspirational"]
     category = categories[random.randint(0, len(categories) - 1)]
 
@@ -166,10 +164,12 @@ def quotes(request):
     response = requests.get(url, headers=header)
     print(response.json())
 
+
+
     if response.status_code == 200:
-        return Response({"err" : False, "data" : response.json()[0]}, status=status.HTTP_200_OK)
+        return False, response.json()[0]
     
-    return Response({"err" : True, "data" : response.json()}, status=response.status_code)
+    return True, response.json()
 
 
 
@@ -190,7 +190,8 @@ class Dashboard(APIView):
 
     def get(self, request):
         user_id = request.user.profile.id
-        
+        error, quote = quotes()
+    
         target_water = Profile.objects.filter(user_id = user_id).values_list('target_water_intake',flat=True).first()
         water_consumed = FoodLog.objects.filter\
                         ( user_profile_id=user_id, 
@@ -223,7 +224,8 @@ class Dashboard(APIView):
         #logs = FoodLog.objects.filter(date__gte=one_week_ago).values('food_name', 'calories','proteins','fat','carbs')
         logs_json = json.dumps(list(logs),cls=CustomJSONEncoder)
         target_calories = json.dumps(list(target_calories),cls=CustomJSONEncoder)
-        data = {'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
+        
+        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, 'target_water_intake':target_water, 'water_consumed': water_consumed,"one_week_FoodLog":logs_json,"target_calories":target_calories}
 
         print("Data",data)
-        return render(request, "customs/dashboard.html", {}) # {} is the data from DB to front end
+        return render(request, "customs/dashboard.html", data) # {} is the data from DB to front end
