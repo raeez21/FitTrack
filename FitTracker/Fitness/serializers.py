@@ -5,7 +5,9 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.core import validators
 
 class ProfileSerialzer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True, default=serializers.CurrentUserDefault())
@@ -49,10 +51,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(max_length=128, write_only=True, required=True)
-    new_password1 = serializers.CharField(max_length=128, write_only=True, required=True)
+    new_password = serializers.CharField(max_length=128, write_only=True, required=True)
 
     def validate_old_password(self, value):
-        user = serializers.CurrentUserDefault().user
+        ##AYUSH user = serializers.CurrentUserDefault().user
+        user = self.context['request'].user
         if not user.check_password(value):
             raise serializers.ValidationError(
                 _('Your old password was entered incorrectly. Please enter it again.')
@@ -60,16 +63,36 @@ class ChangePasswordSerializer(serializers.Serializer):
         return value
 
     def validate(self, data):
-        password_validation.validate_password(data['new_password1'], serializers.CurrentUserDefault())
+        password_validation.validate_password(data['new_password'], serializers.CurrentUserDefault())
         return data
+    # def validate_new_password(self, value):
+    #     #validate_password(value)
+    #     password_validation.validate_password(value, serializers.CurrentUserDefault(), password_validators=[
+    #          validators.MinLengthValidator(4), # Allow shorter passwords
+    #      ])
+    #     return value
+    #     # try:
+        #     print("new:", value)
+        #     password_validation.validate_password(value, password_validators=[], min_length=4)
+        # except password_validation.ValidationError as error:
+        #     # Raise a custom validation error message
+        #     raise serializers.ValidationError({'new_password': error.messages})
 
-    def save(self, **kwargs):
-        password = self.validated_data['new_password1']
+        # return value
+        # "#return value
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['new_password'])
+        instance.save()
+        return instance
+    
+
+    # def save(self, **kwargs):
+    #     password = self.validated_data['new_password1']
         
-        user = serializers.CurrentUserDefault()
-        user.set_password(password)
-        user.save()
-        return user
+    #     user = serializers.CurrentUserDefault()
+    #     user.set_password(password)
+    #     user.save()
+    #     return user
     
 
 # Register Serializer

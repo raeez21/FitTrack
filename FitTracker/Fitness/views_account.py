@@ -11,18 +11,42 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
+import logging
 from knox.views import LoginView as KnoxLoginView
+from rest_framework.authentication import SessionAuthentication
 
+
+
+# class ChangePassword(APIView):
+#     def patch(self, request):
+#         serializer = ChangePasswordSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         # if using drf authtoken, create a new token 
+#         # if hasattr(user, 'auth_token'):
+#             # user.auth_token.delete()
+#         # token, created = Token.objects.get_or_create(user=user)
+#         # return new token
+#         return Response({'message': "Password Changed"}, status=status.HTTP_200_OK)
 class ChangePassword(APIView):
+    authentication_classes = [SessionAuthentication]
     def patch(self, request):
-        serializer = ChangePasswordSerializer(data=request.data)
+        print("req data:",request.data)
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        if not serializer.is_valid():
+            logger = logging.getLogger(__name__)
+            logger.error(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        # if using drf authtoken, create a new token 
+        user = serializer.update(request.user, serializer.validated_data)
+        
+        # if using drf authtoken, create a new token
         # if hasattr(user, 'auth_token'):
-            # user.auth_token.delete()
+        #     user.auth_token.delete()
         # token, created = Token.objects.get_or_create(user=user)
         # return new token
+
         return Response({'message': "Password Changed"}, status=status.HTTP_200_OK)
 
 
