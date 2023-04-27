@@ -76,7 +76,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
         mutable_data['user_profile'] = request.user.profile.id
         food_name = mutable_data['food_name']
         food_data = Food.objects.filter(food_name__iexact=food_name)#.first()
-        print("data...",request.data)
+        #print("data...",request.data)
         if food_data.exists():
             food_data = food_data.first()
             print("Found in DB")
@@ -87,7 +87,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
                 return Response(food_data.content.decode('utf-8'), status=status.HTTP_404_NOT_FOUND)
             print("Found from API::",food_name)
             food_data = FoodDict(food_data)
-        print("food",food_data.carbs_per_serving)
+        print("food Name",food_data.food_name)
         mutable_data["food_name"]=food_data.food_name
         mutable_data["carbs"] = float(mutable_data['quantity'])*float(food_data.carbs_per_serving)
         mutable_data["calories"] = float(mutable_data['quantity'])*float(food_data.cal_per_serving)
@@ -207,7 +207,7 @@ def getDashboardData(user_id):
     f_logs = FoodLog.objects.filter(user_profile_id=user_id, date__gte=one_week_ago).\
             values(log_date=F('date__date')).\
             annotate(total_calories=Sum('calories'))
-    m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi','date__date')
+    m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi','waist_hip_ratio','waist_height_ratio','date__date')
     
     e_logs = ExerciseLog.objects.filter(user_profile_id=1,date__gte = one_week_ago).\
             values('date__date').\
@@ -225,14 +225,19 @@ def getDashboardData(user_id):
         if m_log.exists():
             weight = m_log.first()['weight']
             bmi = m_log.first()['bmi']
+            waist_hip_ratio = m_log.first()['waist_hip_ratio']
+            waist_height_ratio = m_log.first()['waist_height_ratio']
         else:
             weight = 0
             bmi = 0
+            waist_hip_ratio = 0
+            waist_height_ratio = 0
         if e_log.exists():
             total_calories_burned = e_log.first()['calBurn']
         else:
             total_calories_burned = 0
-        one_week_summary.append({'log_date': dates, 'total_calories_intake': total_calories,'total_calories_burned':total_calories_burned,'weight':weight,'bmi':bmi})
+        one_week_summary.append({'log_date': dates, 'total_calories_intake': total_calories,'total_calories_burned':total_calories_burned,'weight':weight,'bmi':bmi,\
+                        'waist_hip_ratio':waist_hip_ratio,'waist_height_ratio':waist_height_ratio})
             #food_summary.append({'log_date': dates, 'total_calories': 0})
     one_week_summary = sorted(one_week_summary, key=lambda x: x['log_date'])
     one_week_summary = json.dumps(list(one_week_summary),cls=CustomJSONEncoder)

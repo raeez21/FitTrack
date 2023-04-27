@@ -22,24 +22,29 @@ class ProfileSerialzer(serializers.ModelSerializer):
         return pound / 2.205
 
     def update(self, instance, validated_data):
-        weight = self._kgToPound(validated_data.get('weight', instance.weight))
+        print("hereee")
+        # weight = self._kgToPound(validated_data.get('weight', instance.weight))
     
-        instance.gender = validated_data.get("gender", instance.gender)
+        # instance.gender = validated_data.get("gender", instance.gender)
 
-        instance.dob = validated_data.get("dob", instance.dob)
+        # instance.dob = validated_data.get("dob", instance.dob)
 
-        instance.weight = validated_data.get("weight", instance.weight)
-        instance.height = validated_data.get("height", instance.height)
+        # instance.weight = validated_data.get("weight", instance.weight)
+        # instance.height = validated_data.get("height", instance.height)
 
-        instance.target_calorie_intake = validated_data.get("target_calorie_intake", instance.target_calorie_intake)
-        instance.target_calorie_burn = validated_data.get("target_calorie_burn", instance.target_calorie_burn)
-        instance.target_carbohydrate_intake = validated_data.get("target_carbohydrate_intake", instance.target_carbohydrate_intake)
-        instance.target_protein_intake = validated_data.get("target_protein_intake", instance.target_protein_intake)
-        instance.target_fat_intake = validated_data.get("target_fat_intake", instance.target_fat_intake)
-        instance.target_water_intake = weight * 0.5 # in ounce
+        # instance.target_calorie_intake = validated_data.get("target_calorie_intake", instance.target_calorie_intake)
+        # instance.target_calorie_burn = validated_data.get("target_calorie_burn", instance.target_calorie_burn)
+        # instance.target_carbohydrate_intake = validated_data.get("target_carbohydrate_intake", instance.target_carbohydrate_intake)
+        # instance.target_protein_intake = validated_data.get("target_protein_intake", instance.target_protein_intake)
+        # instance.target_fat_intake = validated_data.get("target_fat_intake", instance.target_fat_intake)
+        # instance.target_water_intake = weight * 0.5 # in ounce
 
+        #instance.save()
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
         instance.save()
         return instance
+        #return instance
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
