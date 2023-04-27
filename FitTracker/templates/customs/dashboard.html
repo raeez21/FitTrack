@@ -394,11 +394,15 @@ for (var i in WOW){
 }
 
 function onScanSuccess(decodedText, decodedResult) {
-	alert("CODE IS" + decodedResult["decodedText"]);
+	var code = decodedResult["decodedText"]
+	alert("CODE IS: " + code);
 	// set get request to the server 
 	// server will use this id to get product data
 	// and will return us the prodiuct info
 	console.log(`Code scanned = ${decodedText}`, decodedResult);
+	$.get("/scannermain/" + code, function(data, status){
+		console.log(data);
+	});
 	html5QrcodeScanner.clear();
 }
 
