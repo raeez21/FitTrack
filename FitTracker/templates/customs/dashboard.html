@@ -363,6 +363,9 @@
 
 function onScanSuccess(decodedText, decodedResult) {
 	alert("CODE IS" + decodedResult["decodedText"]);
+	// set get request to the server 
+	// server will use this id to get product data
+	// and will return us the prodiuct info
 	console.log(`Code scanned = ${decodedText}`, decodedResult);
 	html5QrcodeScanner.clear();
 }
