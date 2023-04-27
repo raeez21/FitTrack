@@ -201,16 +201,17 @@ $("#updateProfile").on("submit", function (e) {
 			data: data,
 			success: function(data){
 				console.log( "Data Saved: " , data );
+				alert("Profile updated successfully");
 				// window.location.href = "/fr/dashboard/";
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				var status = XMLHttpRequest.status;
 				var data = XMLHttpRequest.responseJSON;
-
+				alert("Something went wrong!");
 				console.log(status, data);
 
 				message = data["non_field_errors"][0];
-
+				
 				$("#error").text(message);
 			}
 		});
@@ -235,6 +236,7 @@ $("#updateProfile").on("submit", function (e) {
 			data: data,
 			success: function(data){
 				console.log( "Data Saved: " , data );
+				alert("Password changed successfully");
 				// window.location.href = "/fr/dashboard/";
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -244,7 +246,7 @@ $("#updateProfile").on("submit", function (e) {
 				console.log(status, data);
 
 				message = data["non_field_errors"][0];
-
+				alert("Something went wrong!");
 				$("#error").text(message);
 			}
 		});
