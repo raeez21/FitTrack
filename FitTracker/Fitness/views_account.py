@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from .models import Profile
 from django.urls import reverse
-
+from django.contrib.auth import login, authenticate, logout
 from .serializers import ProfileSerialzer, RegisterSerializer, UserSerializer, ChangePasswordSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -193,3 +193,8 @@ class ProfileView(APIView):
         else:
             return Response({"status": "error","message":"err" ,"data": serializer.errors})
    
+
+
+def logoutUser(request):
+    logout(request) 
+    return redirect("/")

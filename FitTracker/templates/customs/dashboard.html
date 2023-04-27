@@ -293,7 +293,7 @@
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
 								<p class="mb-3">BMI & Weight Progress</p>
-								<h3>1000 / 2500</h3>
+								<!-- <h3>1000 / 2500</h3>	 -->
 							</div>
 							<!-- <div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
 								<div class="d-flex align-items-center">
@@ -328,7 +328,7 @@
 						</div>
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
-								<p class="mb-3">Daily Calorie Consumed & Burned</p>
+								<p class="mb-3">Waist to Hip & Height Ratio</p>
 								<!-- <h3>1000 / 2500</h3> -->
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
@@ -341,7 +341,7 @@
 							</div>
 						</div>
 
-						<canvas id="safasfsd" class="chartjs-render-monitor"></canvas>
+						<canvas id="waistTargets" class="chartjs-render-monitor"></canvas>
 					</div>
 				</div>
 			</div>
@@ -370,6 +370,9 @@ var TARGETS = {{ targets|safe }}
 var WATER_TAR = WATER_CON["target"];
 var WATER_CON = WATER_CON["consumed"];
 var BMIS = [];
+var WTH = []
+var WTHI = []
+
 console.log(WOW, WATER_CON);
 
 var BURNED_SUM = []
@@ -385,6 +388,9 @@ for (var i in WOW){
 	DAYS.push(WOW[i]["log_date"])
 	BMI.push(WOW[i]["bmi"])
 	WEIGHT.push(WOW[i]["weight"])
+	WTH.push(WOW[i]["waist_hip_ratio"])
+	WTHI.push(WOW[i]["waist_height_ratio"])
+
 }
 
 function onScanSuccess(decodedText, decodedResult) {
@@ -562,6 +568,7 @@ function opencam(){
 		const calorieCtx = document.getElementById('targets');
 		const waterCtx = document.getElementById("water");
 		const bmiCtx = document.getElementById("bmitargets");
+		const waistCtx = document.getElementById("waistTargets");
 		
 
 		function calorieTarget(ctx) {
@@ -673,9 +680,50 @@ function opencam(){
 			});
 		}
 
+
+
+		function waistTarget(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: DAYS,
+					datasets: [
+						{
+							label: 'Waist to Hip Ratio',
+							borderColor: "red",
+							borderWidth: 2,
+							fill: false,
+							data: WTH
+						},
+
+						{
+							label: 'Waist to Height Ratio',
+							borderColor: "green",
+							borderWidth: 2,
+							fill: false,
+							data: WTHI
+						},
+
+					]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Chart.js Drsw Line on Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+				}
+			});
+		}
+
 		calorieTarget(calorieCtx);
 		waterTarget(waterCtx);
 		bmiTarget(bmiCtx);
+		waistTarget(waistCtx);
 	
 
 	</script>

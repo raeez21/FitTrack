@@ -19,7 +19,7 @@ from knox import views as knox_views
 
 from .views import FoodLogView, quotes, hm, Dashboard
 from .views import FoodLogView, quotes, ExerciseLogView, MeasurementsLogView
-from .views_account import AccountView, LoginAPI, ProfileView, ChangePassword
+from .views_account import AccountView, LoginAPI, ProfileView, ChangePassword, logoutUser
 from .views_scanner import Scanner
 
 urlpatterns = [
@@ -42,6 +42,7 @@ urlpatterns = [
     path('fr/login/', LoginAPI.as_view(fr=1), name='login'),
     path('fr/profile/', ProfileView.as_view(fr=1), name='settings'),
     path('', Dashboard.as_view(fr=1), name='dashboard'),
+    path('fr/logout/', logoutUser, name="logout"),
 
 
     path('e-log/',ExerciseLogView.as_view(), name = 'ExerciseLog'),
