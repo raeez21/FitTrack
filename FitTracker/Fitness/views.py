@@ -76,7 +76,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
         mutable_data['user_profile'] = request.user.profile.id
         food_name = mutable_data['food_name']
         food_data = Food.objects.filter(food_name__iexact=food_name)#.first()
-        
+        print("data...",request.data)
         if food_data.exists():
             food_data = food_data.first()
             print("Found in DB")
@@ -85,7 +85,7 @@ class FoodLogView(LoginRequiredMixin, APIView):
             food_data = get_food_API(food_name)
             if isinstance(food_data,JsonResponse):
                 return Response(food_data.content.decode('utf-8'), status=status.HTTP_404_NOT_FOUND)
-            print("Found from API")
+            print("Found from API::",food_name)
             food_data = FoodDict(food_data)
         print("food",food_data.carbs_per_serving)
         mutable_data["food_name"]=food_data.food_name
