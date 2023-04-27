@@ -261,6 +261,13 @@ class Dashboard(APIView):
     fr = 0
 
     def get(self, request):
+
+
+        if not request.user.is_authenticated:
+            return redirect("/fr/register")
+
+
+
         user_id = request.user.profile.id
         error, quote = quotes()
         water, one_week_summary, targets = getDashboardData(user_id)
