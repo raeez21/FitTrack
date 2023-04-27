@@ -209,7 +209,7 @@ def getDashboardData(user_id):
             annotate(total_calories=Sum('calories'))
     m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi','waist_hip_ratio','waist_height_ratio','date__date')
     
-    e_logs = ExerciseLog.objects.filter(user_profile_id=1,date__gte = one_week_ago).\
+    e_logs = ExerciseLog.objects.filter(user_profile_id=user_id,date__gte = one_week_ago).\
             values('date__date').\
             annotate(calBurn=Sum(ExpressionWrapper(F('duration') * F('exercise__cal_burned_per_min'),
                                             output_field=FloatField())))
@@ -271,6 +271,7 @@ class Dashboard(APIView):
 
 
         user_id = request.user.profile.id
+        print("User id:",user_id)
         error, quote = quotes()
         water, one_week_summary, targets = getDashboardData(user_id)
         data = {'exercises' : exercises_data,  'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, "water":water,"one_week_summary":one_week_summary,"targets":targets}
