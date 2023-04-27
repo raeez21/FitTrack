@@ -37,7 +37,7 @@ def get_food_API(food_name):
     if response.ok:
         #print("hi",response.json()['results'])
         if len(response.json()['results']) == 0:
-            error_data = {'error':'No item found'}
+            error_data = {'error':f'Item {food_name} not found in the API'}
             return JsonResponse(error_data,status=404)
         data = response.json()['results'][0]#json.loads(response.text)
         food_data = {"food_name":data['title'],\
