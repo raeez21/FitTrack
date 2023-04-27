@@ -259,12 +259,12 @@
 								<h3 id="target1">{{targets.target_calorie_burn}} /  {{targets.target_calorie_intake}}</h3>
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
-								<div class="d-flex align-items-center">
+								<!-- <div class="d-flex align-items-center">
 									<div class="mr-2"
 										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
 										data-darkreader-inline-bgcolor=""></div>
-									<p class="mb-0">Consumption</p>
-								</div>
+									<!-- <p class="mb-0">Consumption</p> 
+								</div> -->
 							</div>
 						</div>
 
@@ -291,20 +291,20 @@
 						</div>
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
-								<p class="mb-3">Daily Calorie Consumed & Burned</p>
+								<p class="mb-3">BMI & Weight Progress</p>
 								<h3>1000 / 2500</h3>
 							</div>
-							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
+							<!-- <div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
 								<div class="d-flex align-items-center">
 									<div class="mr-2"
 										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
 										data-darkreader-inline-bgcolor=""></div>
 									<p class="mb-0">Consumption</p>
 								</div>
-							</div>
+							</div> -->
 						</div>
 
-						<canvas id="targets" class="chartjs-render-monitor"></canvas>
+						<canvas id="bmitargets" class="chartjs-render-monitor"></canvas>
 					</div>
 				</div>
 			</div>
@@ -331,16 +331,16 @@
 								<h3>1000 / 2500</h3>
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
-								<div class="d-flex align-items-center">
+								<!-- <div class="d-flex align-items-center">
 									<div class="mr-2"
 										style="width: 12px; border-radius: 50%; height: 12px; background-color: rgb(0, 200, 191); --darkreader-inline-bgcolor:#00a099;"
 										data-darkreader-inline-bgcolor=""></div>
 									<p class="mb-0">Consumption</p>
-								</div>
+								</div> -->
 							</div>
 						</div>
 
-						<canvas id="targets" class="chartjs-render-monitor"></canvas>
+						<canvas id="safasfsd" class="chartjs-render-monitor"></canvas>
 					</div>
 				</div>
 			</div>
@@ -367,15 +367,22 @@ var WOW = JSON.parse('{{ one_week_summary|safe }}');
 var WATER_CON = {{ water|safe }} ;
 var TARGETS = {{ targets|safe }}
 WATER_CON = WATER_CON["consumed"];
+var BMIS = 
 console.log(WOW, WATER_CON);
 
 var BURNED_SUM = []
 var CONSUMED_SUM = []
+var DAYS = []
+var BMI = []
+var WEIGHT = []
 
 for (var i in WOW){
 	console.log(WOW[i]);
 	BURNED_SUM.push(WOW[i]["total_calories_burned"])
 	CONSUMED_SUM.push(WOW[i]["total_calories_intake"])
+	DAYS.push(WOW[i]["log_date"])
+	BMI.push(WOW[i]["bmi"])
+	WEIGHT.push(WOW[i]["weight"])
 }
 
 function onScanSuccess(decodedText, decodedResult) {
@@ -552,13 +559,14 @@ function opencam(){
 		// const c = document.getElementById("targets").getContext("2d");
 		const calorieCtx = document.getElementById('targets');
 		const waterCtx = document.getElementById("water");
+		const bmiCtx = document.getElementById("bmitargets");
+		
 
 		function calorieTarget(ctx) {
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {
-					labels:
-						["Mondaya", "Tuesday", "Wednesday", "Thurdsday", "Friday", "Saturday", "Sunday"],
+					labels: DAYS,
 					datasets: [
 						{
 							label: 'Consumed',
@@ -592,6 +600,45 @@ function opencam(){
 			});
 		}
 
+
+		function bmiTarget(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: DAYS,
+					datasets: [
+						{
+							label: 'BMI',
+							borderColor: "red",
+							borderWidth: 2,
+							fill: false,
+							data: BMI
+						},
+
+						{
+							label: 'Weight',
+							borderColor: "green",
+							borderWidth: 2,
+							fill: false,
+							data: WEIGHT
+						},
+
+					]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Chart.js Drsw Line on Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+				}
+			});
+		}
+
 		function waterTarget(ctx) {
 			var myChart = new Chart(ctx, {
 				type: 'pie',
@@ -601,7 +648,7 @@ function opencam(){
 
 					datasets: [{
 						label: 'Water Consumption',
-						data: [WATER_CON, 8],
+						data: [WATER_CON, 8 - WATER_CON],
 						backgroundColor: [
 							'rgb(54, 162, 235)',
 							'rgb(59, 59, 59)'
@@ -626,6 +673,9 @@ function opencam(){
 
 		calorieTarget(calorieCtx);
 		waterTarget(waterCtx);
+		bmiTarget(bmiCtx);
+	
+
 	</script>
 
 	{% endblock js %}
