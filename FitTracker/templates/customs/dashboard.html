@@ -256,7 +256,7 @@
 						<div class="d-flex justify-content-between align-items-start flex-wrap">
 							<div>
 								<p class="mb-3">Daily Calorie Consumed & Burned</p>
-								<h3>1000 / 2500</h3>
+								<h3 id="target1">{{targets.target_calorie_burn}} /  {{targets.target_calorie_intake}}</h3>
 							</div>
 							<div id="income-chart-legend" class="d-flex flex-wrap mt-1 mt-md-0">
 								<div class="d-flex align-items-center">
@@ -359,7 +359,24 @@
 
 <script src="https://unpkg.com/html5-qrcode"></script>
 
+<!-- <script data-hm="{{one_week_summary}}"></script> -->
+
 <script>
+
+var WOW = JSON.parse('{{ one_week_summary|safe }}');
+var WATER_CON = {{ water|safe }} ;
+var TARGETS = {{ targets|safe }}
+WATER_CON = WATER_CON["consumed"];
+console.log(WOW, WATER_CON);
+
+var BURNED_SUM = []
+var CONSUMED_SUM = []
+
+for (var i in WOW){
+	console.log(WOW[i]);
+	BURNED_SUM.push(WOW[i]["total_calories_burned"])
+	CONSUMED_SUM.push(WOW[i]["total_calories_intake"])
+}
 
 function onScanSuccess(decodedText, decodedResult) {
 	alert("CODE IS" + decodedResult["decodedText"]);
@@ -548,7 +565,7 @@ function opencam(){
 							borderColor: "red",
 							borderWidth: 2,
 							fill: false,
-							data: [600, 1000, 500, 2000, 2500, 1500, 1800]
+							data: CONSUMED_SUM
 						},
 
 						{
@@ -556,7 +573,7 @@ function opencam(){
 							borderColor: "green",
 							borderWidth: 2,
 							fill: false,
-							data: [12, 15, 4, 6, 8, 2, 10]
+							data: BURNED_SUM
 						},
 
 					]
@@ -584,7 +601,7 @@ function opencam(){
 
 					datasets: [{
 						label: 'Water Consumption',
-						data: [5, 8],
+						data: [WATER_CON, 8],
 						backgroundColor: [
 							'rgb(54, 162, 235)',
 							'rgb(59, 59, 59)'
