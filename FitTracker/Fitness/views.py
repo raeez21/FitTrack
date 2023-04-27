@@ -37,7 +37,7 @@ def get_food_API(food_name):
     if response.ok:
         #print("hi",response.json()['results'])
         if len(response.json()['results']) == 0:
-            error_data = {'error':f'Item {food_name} not found in the API'}
+            error_data = {'error':f'No item {food_name} found in FOODAPI'}
             return JsonResponse(error_data,status=404)
         data = response.json()['results'][0]#json.loads(response.text)
         food_data = {"food_name":data['title'],\
@@ -209,10 +209,24 @@ def getDashboardData(user_id):
             annotate(total_calories=Sum('calories'))
     m_logs = Measurements.objects.filter(user_profile = user_id,date__gte = one_week_ago).values('weight','bmi','waist_hip_ratio','waist_height_ratio','date__date')
     
-    e_logs = ExerciseLog.objects.filter(user_profile_id=user_id,date__gte = one_week_ago).\
-            values('date__date').\
-            annotate(calBurn=Sum(ExpressionWrapper(F('duration') * F('exercise__cal_burned_per_min'),
-                                            output_field=FloatField())))
+    # e_logs = ExerciseLog.objects.filter(user_profile_id=user_id,date__gte = one_week_ago).\
+    #         values('date__date').\
+    #         annotate(calBurn=Sum(ExpressionWrapper(F('duration') * F('exercise__cal_burned_per_min'),
+    #                                         output_field=FloatField())))
+    # e_logs = Exercise.objects.filter(exerciselog__user_profile_id=user_id,date__gte = one_week_ago) \
+    #             .annotate(calories_burned=Sum(F('cal_burned_per_min') * F('exerciselog__duration'))) \
+    #             .values('exerciselog__date') \
+    #             .annotate(calBurn=Sum('calories_burned'))
+    e_logs = ExerciseLog.objects.filter(user_profile_id=user_id,date__gte = one_week_ago) \
+                   .values('date__date')\
+                   .annotate(calories_burned=Sum(ExpressionWrapper(F('exercise__cal_burned_per_min') * F('duration'),output_field=FloatField())))
+                   
+                   #.annotate(total_calories_burned=Sum(F('calories_burned')))
+                   #.values('date__date', 'total_calories_burned')
+                   #.values('date__date') \
+                   #.annotate(calBurn=Sum('calories_burned'))\
+                   #.order_by('date')
+
     one_week_summary= []
     for dates in date_sequence:
         f_log = f_logs.filter(log_date=dates)
@@ -233,7 +247,10 @@ def getDashboardData(user_id):
             waist_hip_ratio = 0
             waist_height_ratio = 0
         if e_log.exists():
-            total_calories_burned = e_log.first()['calBurn']
+            #total_calories_burned = round(e_log[0]['total_calories_burned'])
+            total_calories_burned = round(e_log.aggregate(Sum('calories_burned'))['calories_burned__sum'])
+            print("tot cal burned:",total_calories_burned)
+            #total_calories_burned = e_log.first()['calBurn']
         else:
             total_calories_burned = 0
         one_week_summary.append({'log_date': dates, 'total_calories_intake': total_calories,'total_calories_burned':total_calories_burned,'weight':weight,'bmi':bmi,\
