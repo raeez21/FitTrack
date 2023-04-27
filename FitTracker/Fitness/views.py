@@ -264,7 +264,7 @@ class Dashboard(APIView):
 
 
         if not request.user.is_authenticated:
-            return redirect("/fr/register")
+            return redirect("/fr/login/")
 
         exercises = Exercise.objects.all()
         exercises_data = [{'id': exercise.id, 'name': exercise.name} for exercise in exercises]
