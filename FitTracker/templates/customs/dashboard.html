@@ -107,6 +107,7 @@
 				  <div class="form-group">
 					<label for="exampleFormControlSelect2">Exercise</label>
 					<select class="form-control" id="exercise" name="exercise" value='{{ profile.gender }}' id="exampleFormControlSelect2">
+						{{exercises}}
 						{% for exercise in exercises %}
 							<option value="{{exercise.id}}">{{exercise.name}}</option>
 						{% endfor %}

@@ -266,12 +266,14 @@ class Dashboard(APIView):
         if not request.user.is_authenticated:
             return redirect("/fr/register")
 
+        exercises = Exercise.objects.all()
+        exercises_data = [{'id': exercise.id, 'name': exercise.name} for exercise in exercises]
 
 
         user_id = request.user.profile.id
         error, quote = quotes()
         water, one_week_summary, targets = getDashboardData(user_id)
-        data = {'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, "water":water,"one_week_summary":one_week_summary,"targets":targets}
+        data = {'exercises' : exercises_data,  'quote' : { 'quote' : quote["quote"], 'author' : quote['author']}, "water":water,"one_week_summary":one_week_summary,"targets":targets}
 
         print("Data",data)
         return render(request, "customs/dashboard.html", data) # {} is the data from DB to front end
