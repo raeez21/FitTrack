@@ -366,8 +366,9 @@
 var WOW = JSON.parse('{{ one_week_summary|safe }}');
 var WATER_CON = {{ water|safe }} ;
 var TARGETS = {{ targets|safe }}
-WATER_CON = WATER_CON["consumed"];
-var BMIS = 
+var WATER_TAR = WATER_CON["target"];
+var WATER_CON = WATER_CON["consumed"];
+var BMIS = [];
 console.log(WOW, WATER_CON);
 
 var BURNED_SUM = []
@@ -648,7 +649,7 @@ function opencam(){
 
 					datasets: [{
 						label: 'Water Consumption',
-						data: [WATER_CON, 8 - WATER_CON],
+						data: [WATER_CON, WATER_TAR],
 						backgroundColor: [
 							'rgb(54, 162, 235)',
 							'rgb(59, 59, 59)'
